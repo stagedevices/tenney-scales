@@ -5,7 +5,10 @@
   "author": "Tenney Community",
   "authorUrl": "https://example.com",
   "license": "CC0-1.0",
-  "tags": ["equal-temperament", "example"],
+  "tags": [
+    "equal-temperament",
+    "example"
+  ],
   "defaults": {
     "rootHz": 440,
     "primeLimit": 13
@@ -13,6 +16,6 @@
   "inputs": {
     "scala": "sources/12tet.scl"
   },
-  "createdAt": "2026-01-01T00:00:00Z",
-  "updatedAt": "2026-01-01T00:00:00Z"
+  "createdAt": "2026-01-17T07:58:31Z",
+  "updatedAt": "2026-01-17T03:13:43Z"
 }
