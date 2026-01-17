@@ -1,0 +1,43 @@
+### Pack title
+
+test
+
+### Preferred slug (optional)
+
+_No response_
+
+### Author display name
+
+test
+
+### Author URL (optional)
+
+_No response_
+
+### Short description (1–3 sentences)
+
+this is a test.
+
+### Tags (comma-separated)
+
+test
+
+### Prime limit default
+
+13
+
+### Root Hz default
+
+440
+
+### Multiple scales per pack?
+
+No, this pack is a single scale
+
+### Scale files list (filenames you intend to upload)
+
+test.ascl
+
+### License confirmation
+
+- [x] I confirm this pack is licensed under CC0-1.0
