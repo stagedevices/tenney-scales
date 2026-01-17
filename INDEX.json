@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-01-17T09:00:18Z",
+  "generatedAt": "2026-01-17T09:22:47Z",
   "packs": [
     {
       "slug": "example-12tet",
@@ -22,6 +22,26 @@
         "scl": "packs/example-12tet/tenney/export.scl",
         "ascl": "packs/example-12tet/tenney/export.ascl",
         "kbm": "packs/example-12tet/tenney/export.kbm"
+      }
+    },
+    {
+      "slug": "test",
+      "title": "test",
+      "description": "this is a test.",
+      "author": "test",
+      "license": "CC0-1.0",
+      "tags": [
+        "test"
+      ],
+      "defaults": {
+        "rootHz": 440,
+        "primeLimit": 13
+      },
+      "files": {
+        "tenney": "packs/test/tenney/scale-builder.json",
+        "scl": "packs/test/tenney/export.scl",
+        "ascl": "packs/test/tenney/export.ascl",
+        "kbm": "packs/test/tenney/export.kbm"
       }
     }
   ]
