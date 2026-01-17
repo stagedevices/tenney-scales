@@ -34,14 +34,14 @@ async function validateInputsExist(inputs: PackInputs, slug: string): Promise<vo
     try {
       await fs.access(scalaPath);
     } catch (error) {
-      errors.push(`Missing scala source: ${scalaPath}`);
+      errors.push(`Missing scala source: ${scalaPath}. Ensure there are uploaded files in the /sources/ directory, and that they match the enumerated files in the associated github issue.`);
     }
     if (inputs.kbm) {
       const kbmPath = path.join(packsDir, slug, inputs.kbm);
       try {
         await fs.access(kbmPath);
       } catch (error) {
-        errors.push(`Missing kbm source: ${kbmPath}`);
+        errors.push(`Missing kbm source: ${kbmPath}. Ensure there are .kbm files in the /sources/ directory, and that they match the enumerated files in the associated github issue.`);
       }
     }
   }
@@ -52,14 +52,14 @@ async function validateInputsExist(inputs: PackInputs, slug: string): Promise<vo
       try {
         await fs.access(scalaPath);
       } catch (error) {
-        errors.push(`Missing scala source: ${scalaPath}`);
+        errors.push(`Missing scala source: ${scalaPath}. Ensure there are uploaded files in the /sources/ directory, and that they match the enumerated files in the associated github issue.`);
       }
       if (entry.kbm) {
         const kbmPath = path.join(packsDir, slug, entry.kbm);
         try {
           await fs.access(kbmPath);
         } catch (error) {
-          errors.push(`Missing kbm source: ${kbmPath}`);
+          errors.push(`Missing kbm source: ${kbmPath}. Ensure there are .kbm files in the /sources/ directory, and that they match the enumerated files in the associated github issue.`);
         }
       }
     }
