@@ -16,7 +16,7 @@ _No response_
 
 ### Short description (1–3 sentences)
 
-this is a test.
+test
 
 ### Tags (comma-separated)
 
@@ -32,11 +32,11 @@ test
 
 ### Multiple scales per pack?
 
-No, this pack is a single scale
+Yes, this pack will include multiple scales (one .scl/.ascl/.scala per scale; optional .kbm per scale)
 
 ### Scale files list (filenames you intend to upload)
 
-test.ascl
+test.scl
 
 ### License confirmation
 
