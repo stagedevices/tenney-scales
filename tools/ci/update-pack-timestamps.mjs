@@ -17,13 +17,14 @@ for (const entry of entries) {
   if (!fs.existsSync(packPath)) {
     continue;
   }
-    const createdAt = gitDateForFile(packPath);
+    const createdAt = isoZSeconds(gitDateForFile(packPath));
       const relDir = toRepoRel(packDirPath) ?? ".";
   let updatedAt = "";
      try {
-        updatedAt = gitOut(["log", "-1", "--format=%cI", "--", relDir]);
+         updatedAt = gitOut(["log", "-1", "--format=%cI", "--", relDir]);
       } catch {}
-      if (!updatedAt) updatedAt = gitOut(["show", "-s", "--format=%cI", "HEAD"]);
+    if (!updatedAt) updatedAt = gitOut(["show", "-s", "--format=%cI", "HEAD"]);
+    updatedAt = isoZSeconds(updatedAt);
 
   const pack = JSON.parse(fs.readFileSync(packPath, "utf8"));
   pack.createdAt = createdAt;
@@ -53,4 +54,14 @@ function gitDateForFile(absPath, fallbackHead = true) {
   } catch {}
   if (!fallbackHead) throw new Error(`No git history for: ${rel}`);
   return gitOut(["show", "-s", "--format=%cI", "HEAD"]);
+}
+
+function isoZSeconds(isoLike) {
+  // Accepts "2026-01-16T16:12:34+00:00" or "2026-01-16T16:12:34Z" etc.
+  // Produces strict "YYYY-MM-DDTHH:MM:SSZ" (no milliseconds).
+  const d = new Date(isoLike);
+  if (Number.isNaN(d.getTime())) {
+    throw new Error(`Invalid ISO date from git: ${isoLike}`);
+  }
+  return d.toISOString().slice(0, 19) + "Z";
 }
