@@ -57,7 +57,8 @@ jobs:
         env:
           SLUG: ${{ steps.scaffold.outputs.slug }}
           PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
-          with:
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const issueNumber = context.issue.number;
             const { owner, repo } = context.repo;
@@ -99,4 +100,3 @@ jobs:
               issue_number: issueNumber,
               body
             });
-
