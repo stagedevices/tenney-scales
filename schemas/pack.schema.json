@@ -63,15 +63,35 @@
     "inputs": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scala"],
       "properties": {
         "scala": {
           "type": "string"
         },
         "kbm": {
           "type": "string"
+        },
+        "scales": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["scala"],
+            "properties": {
+              "scala": {
+                "type": "string"
+              },
+              "kbm": {
+                "type": "string"
+              }
+            }
+          }
         }
-      }
+      },
+      "anyOf": [
+        { "required": ["scala"] },
+        { "required": ["scales"] }
+      ]
     },
     "createdAt": {
       "type": "string",

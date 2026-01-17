@@ -3,9 +3,15 @@ export type PackDefaults = {
   primeLimit: number;
 };
 
-export type PackInputs = {
+export type PackScaleInput = {
   scala: string;
   kbm?: string;
+};
+
+export type PackInputs = {
+  scala?: string;
+  kbm?: string;
+  scales?: PackScaleInput[];
 };
 
 export type PackMetadata = {

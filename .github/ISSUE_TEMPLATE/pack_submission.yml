@@ -1,7 +1,7 @@
 name: Pack submission
 description: Submit a new Tenney scale pack
 title: "Pack submission: <slug>"
-labels: ["pack"]
+labels: ["pack", "status:triage"]
 body:
   - type: input
     id: title
@@ -14,8 +14,8 @@ body:
   - type: input
     id: slug
     attributes:
-      label: Suggested slug (kebab-case)
-      description: "Derive from the title: lowercase, numbers ok, dash-separated, no spaces/underscores, 3–48 chars. Examples: barthopoulos-ji-basics, example-12tet, partch-43."
+      label: Preferred slug
+      description: "Use kebab-case: lowercase letters, digits, hyphens only, 3–48 chars. No spaces or underscores. Example: barthopoulos-ji-basics"
       placeholder: "example-12tet"
     validations:
       required: true
@@ -23,7 +23,7 @@ body:
   - type: input
     id: author
     attributes:
-      label: Author name
+      label: Author display name
       placeholder: "Jane Doe"
     validations:
       required: true
@@ -39,7 +39,8 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Description (1–3 sentences)
+      label: Short description
+      description: "1–3 sentences."
       placeholder: "A short description of the tuning and its use."
     validations:
       required: true
@@ -56,7 +57,7 @@ body:
     id: root_hz
     attributes:
       label: defaults.rootHz
-      description: "Root frequency in Hz."
+      description: "Numeric root frequency in Hz (e.g. 440)."
       placeholder: "440"
     validations:
       required: true
@@ -79,12 +80,29 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: scala_files
+  - type: checkboxes
+    id: multiple_scales
     attributes:
-      label: Scala filename(s) you’ll upload
-      description: "One or more .scl/.ascl/.scala filenames."
-      placeholder: "my-scale.scl"
+      label: Multiple scales per pack
+      options:
+        - label: "Yes, this pack includes multiple scales"
+          required: false
+
+  - type: textarea
+    id: scale_files
+    attributes:
+      label: Scale files list
+      description: |
+        List the scale files you will upload.
+
+        * One scale per line
+        * Accepted formats: .scl, .ascl, .scala
+        * Optional KBM per scale:
+          * `myscale.scl, mymap.kbm` (comma) OR `myscale.scl | mymap.kbm` (pipe)
+        * If you also fill in the single KBM filename below, it will be used for any lines that omit a KBM
+      placeholder: |
+        myscale.scl
+        mysecond.scala, mymap.kbm
     validations:
       required: true
 
@@ -92,8 +110,8 @@ body:
     id: kbm_file
     attributes:
       label: Optional KBM filename
-      description: "If you have one, the .kbm filename."
-      placeholder: "my-scale.kbm"
+      description: "Default .kbm mapping to apply to any lines above that omit a KBM."
+      placeholder: "mymap.kbm"
     validations:
       required: false
 
@@ -108,142 +126,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Next steps (copy/paste + upload)
+        **What happens next**
 
-        **Upload files:**
-        https://github.com/stagedevices/tenney-scales/upload/main
+        * When you submit this issue, a draft PR will be created automatically.
+        * You’ll get an **“Add files now”** link that takes you straight to `packs/<slug>/sources/` on the PR branch.
 
-        **Open PR:**
-        https://github.com/stagedevices/tenney-scales/compare
-
-        **Create these paths:**
-        - `packs/<slug>/pack.json`
-        - `packs/<slug>/sources/<yourfile>.scl` (or `.ascl` / `.scala`)
-        - `packs/<slug>/sources/<optional>.kbm`
-
-        **Fast path (2 clicks):**
-        1. Create `packs/<slug>/pack.json` (Add file → Create new file)
-        2. Upload `.scl/.ascl` (+ optional `.kbm`) into `packs/<slug>/sources/` (Add file → Upload files)
-        3. Click the banner “Create pull request” or open `…/compare`
-
-        ---
-
-        ## Paste-ready `pack.json` template
-
-        Set both timestamps to *today* in this exact format: `YYYY-MM-DDTHH:MM:SSZ` (**no milliseconds**).
-
-        ```json
-        {
-          "slug": "<slug>",
-          "title": "<title>",
-          "description": "<description>",
-          "author": "<author>",
-          "authorUrl": "https://example.com",
-          "license": "CC0-1.0",
-          "tags": ["<tag1>", "<tag2>"],
-          "createdAt": "2026-01-01T00:00:00Z",
-          "updatedAt": "2026-01-01T00:00:00Z",
-          "defaults": { "rootHz": 440, "primeLimit": 13 },
-          "inputs": { "scala": "sources/<file>.scl", "kbm": "sources/<file>.kbm" }
-        }
-        ```
-
-        If you don’t have an author URL, remove the `authorUrl` line entirely (empty strings won’t validate).
-
-        ---
-
-        ## Paste-ready Scala scale file (12-TET example)
-
-        Create: `packs/<slug>/sources/<file>.scl`
-
-        ```text
-        ! <file>.scl
-        !
-        12-TET (example)
-        12
-        !
-        100.0
-        200.0
-        300.0
-        400.0
-        500.0
-        600.0
-        700.0
-        800.0
-        900.0
-        1000.0
-        1100.0
-        2/1
-        ```
-
-        Notes:
-        - The final line is the octave (`2/1`). If your scale already includes 1/1 explicitly, that’s okay.
-        - Cents lines may be decimals; ratio lines may be `p/q`.
-
-        ---
-
-        ## Paste-ready Ableton Scala file (same content, different extension)
-
-        Create: `packs/<slug>/sources/<file>.ascl`
-
-        ```text
-        ! <file>.ascl
-        !
-        12-TET (example)
-        12
-        !
-        100.0
-        200.0
-        300.0
-        400.0
-        500.0
-        600.0
-        700.0
-        800.0
-        900.0
-        1000.0
-        1100.0
-        2/1
-        ```
-
-        ---
-
-        ## Paste-ready KBM mapping (optional, minimal)
-
-        Create: `packs/<slug>/sources/<file>.kbm`
-
-        This is a conservative “one octave, 12 keys” mapping with A4 = 440 Hz and MIDI 69 as reference.
-        If you don’t know KBM yet, you can skip it.
-
-        ```text
-        ! <file>.kbm
-        !
-        12
-        0
-        127
-        69
-        440.0
-        0
-        0
-        1
-        2
-        3
-        4
-        5
-        6
-        7
-        8
-        9
-        10
-        11
-        ```
-
-        KBM quick meanings (very brief):
-        - `12` = mapping size
-        - `69` + `440.0` = reference (A4)
-        - last 12 lines map keys to degrees `0..11`
-
-        If you want “no mapping,” omit the KBM entirely.
-
-        ---
-        When your PR is opened, CI will validate + normalize and generate `packs/<slug>/tenney/*` automatically after merge.
+        Public link to this form:
+        https://github.com/stagedevices/tenney-scales/issues/new?template=pack_submission.yml
