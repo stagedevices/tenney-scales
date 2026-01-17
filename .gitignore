@@ -1,2 +1,5 @@
 node_modules/
 tools/tenney-normalize/dist/
+tools/contract/.build/
+tools/contract/.swiftpm/
+.DS_Store
