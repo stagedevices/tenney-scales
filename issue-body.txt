@@ -1,6 +1,6 @@
 ### Pack title
 
-test
+test1
 
 ### Preferred slug (optional)
 
@@ -8,7 +8,7 @@ _No response_
 
 ### Author display name
 
-test
+test1
 
 ### Author URL (optional)
 
@@ -16,7 +16,7 @@ _No response_
 
 ### Short description (1–3 sentences)
 
-test
+this is a test (1).
 
 ### Tags (comma-separated)
 
