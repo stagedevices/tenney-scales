@@ -1,0 +1,21 @@
+name: Tooling bug report
+description: Report an issue with normalization tooling or CI
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the issue and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: Include commands or pack details.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Paste any relevant error output.

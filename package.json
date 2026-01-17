@@ -1,0 +1,22 @@
+{
+  "name": "tenney-scales",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsup --config tools/tenney-normalize/tsup.config.ts",
+    "validate": "npm run build --silent && node tools/tenney-normalize/dist/cli.js validate",
+    "normalize": "npm run build --silent && node tools/tenney-normalize/dist/cli.js normalize",
+    "index": "npm run build --silent && node tools/tenney-normalize/dist/cli.js index",
+    "check": "npm run build --silent && node tools/tenney-normalize/dist/cli.js check",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "fast-glob": "^3.3.2",
+    "tsup": "^8.0.1",
+    "typescript": "^5.4.2",
+    "vitest": "^1.5.0"
+  }
+}

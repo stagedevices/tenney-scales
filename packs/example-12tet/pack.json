@@ -1,0 +1,18 @@
+{
+  "slug": "example-12tet",
+  "title": "Example 12-TET",
+  "description": "A minimal 12-tone equal temperament example pack.",
+  "author": "Tenney Community",
+  "authorUrl": "https://example.com",
+  "license": "CC0-1.0",
+  "tags": ["equal-temperament", "example"],
+  "defaults": {
+    "rootHz": 440,
+    "primeLimit": 13
+  },
+  "inputs": {
+    "scala": "sources/12tet.scl"
+  },
+  "createdAt": "2026-01-01T00:00:00Z",
+  "updatedAt": "2026-01-01T00:00:00Z"
+}
