@@ -19,23 +19,34 @@ if (!outputPath) {
 const body = fs.readFileSync(inputPath, "utf8");
 const sections = parseIssueSections(body);
 
-const title = requiredField(sections, "Pack title");
-const preferredSlug = requiredField(sections, "Preferred slug");
-const author = requiredField(sections, "Author display name");
-const authorUrl = optionalField(sections, "Author URL (optional)");
-const description = requiredField(sections, "Short description");
-const tagsRaw = requiredField(sections, "Tags (comma-separated)");
-const rootHzRaw = requiredField(sections, "defaults.rootHz");
-const primeLimitRaw = requiredField(sections, "defaults.primeLimit");
-const scaleFilesRaw = requiredField(sections, "Scale files list");
-const globalKbmRaw = optionalField(sections, "Optional KBM filename");
-const licenseRaw = requiredField(sections, "License confirmation");
+const title = requiredFieldAny(sections, ["Pack title", "Pack title"]);
+const preferredSlug = optionalFieldAny(sections, [
+  "Preferred slug",
+  "Preferred slug (optional)",
+  "Suggested slug (kebab-case)",
+  "Suggested slug"
+]);
+const author = requiredFieldAny(sections, ["Author display name", "Author name", "Author display name"]);
+const authorUrl = optionalFieldAny(sections, ["Author URL (optional)", "Author URL"]);
+const description = requiredFieldAny(sections, ["Short description", "Description (1–3 sentences)"]);
+const tagsRaw = requiredFieldAny(sections, ["Tags (comma-separated)", "Tags"]);
+const rootHzRaw = requiredFieldAny(sections, ["defaults.rootHz", "Root Hz default", "Root Hz"]);
+const primeLimitRaw = requiredFieldAny(sections, ["defaults.primeLimit", "Prime limit default", "Prime limit"]);
+const scaleFilesRaw = requiredFieldAny(sections, [
+  "Scale files list",
+  "Scale file list",
+  "Scale file list (filenames you intend to upload)",
+  "Scale file list (filenames they intend to upload)"
+]);
+const globalKbmRaw = optionalFieldAny(sections, ["Optional KBM filename", "Optional KBM filename (optional)"]);
+const licenseRaw = requiredFieldAny(sections, ["License confirmation"]);
 
 if (!/\[x\]/i.test(licenseRaw)) {
   throw new Error("License confirmation is required.");
 }
 
-const slug = ensureUniqueSlug(sanitizeSlug(preferredSlug));
+const slugBase = preferredSlug || title;
+const slug = ensureUniqueSlug(sanitizeSlug(slugBase));
 const tags = tagsRaw
   .split(",")
   .map((tag) => tag.trim())
@@ -60,7 +71,7 @@ if (scaleLines.length === 0) {
   throw new Error("Scale files list must include at least one entry.");
 }
 
-const globalKbm = normalizeOptionalFilename(globalKbmRaw);
+const globalKbm = normalizeKbmFilename(globalKbmRaw);
 const scales = scaleLines.map((line) => parseScaleLine(line, globalKbm));
 
 const packRoot = path.join("packs", slug);
@@ -117,20 +128,24 @@ function parseIssueSections(issueBody) {
   return map;
 }
 
-function requiredField(sectionsMap, label) {
-  const value = sectionsMap.get(label);
-  if (!value || value.trim() === "" || value.trim() === "_No response_") {
-    throw new Error(`Missing required field: ${label}`);
+function requiredFieldAny(sectionsMap, labels) {
+  for (const label of labels) {
+    const value = sectionsMap.get(label);
+    if (value && value.trim() !== "" && value.trim() !== "_No response_") {
+      return value.trim();
+    }
   }
-  return value.trim();
+  throw new Error(`Missing required field: ${labels[0]}`);
 }
 
-function optionalField(sectionsMap, label) {
-  const value = sectionsMap.get(label);
-  if (!value || value.trim() === "" || value.trim() === "_No response_") {
-    return "";
+function optionalFieldAny(sectionsMap, labels) {
+  for (const label of labels) {
+    const value = sectionsMap.get(label);
+    if (value && value.trim() !== "" && value.trim() !== "_No response_") {
+      return value.trim();
+    }
   }
-  return value.trim();
+  return "";
 }
 
 function sanitizeSlug(input) {
@@ -141,7 +156,7 @@ function sanitizeSlug(input) {
     slug = slug.slice(0, 48).replace(/-+$/g, "");
   }
   if (slug.length < 3) {
-    throw new Error("Preferred slug must be at least 3 characters after sanitizing.");
+    throw new Error("Slug must be at least 3 characters after sanitizing.");
   }
   return slug;
 }
@@ -167,20 +182,21 @@ function ensureUniqueSlug(baseSlug) {
   throw new Error("Unable to allocate a unique slug.");
 }
 
-function normalizeOptionalFilename(filename) {
+function normalizeKbmFilename(filename) {
   if (!filename) {
     return "";
   }
   const trimmed = filename.trim();
-  if (!trimmed) {
+  if (!trimmed || trimmed === "_No response_") {
     return "";
   }
-  validateFilename(trimmed);
-  const ext = path.extname(trimmed).toLowerCase();
+  const normalized = ensureExtension(trimmed, ".kbm");
+  validateFilename(normalized);
+  const ext = path.extname(normalized).toLowerCase();
   if (ext !== ".kbm") {
-    throw new Error(`KBM filename must end in .kbm (got ${trimmed}).`);
+    throw new Error(`KBM file must end in .kbm (got ${normalized}).`);
   }
-  return trimmed;
+  return normalized;
 }
 
 function parseScaleLine(line, globalKbm) {
@@ -191,27 +207,40 @@ function parseScaleLine(line, globalKbm) {
   if (parts.length > 2) {
     throw new Error(`Scale line should include only one scala file and optional KBM: ${line}`);
   }
-  const scalaFile = parts[0];
-  validateFilename(scalaFile);
-  const scalaExt = path.extname(scalaFile).toLowerCase();
-  if (![".scl", ".ascl", ".scala"].includes(scalaExt)) {
-    throw new Error(`Scala file must end in .scl, .ascl, or .scala (got ${scalaFile}).`);
-  }
-  const kbmFile = parts[1] ? parts[1] : globalKbm || "";
-  if (kbmFile) {
-    validateFilename(kbmFile);
-    const kbmExt = path.extname(kbmFile).toLowerCase();
-    if (kbmExt !== ".kbm") {
-      throw new Error(`KBM file must end in .kbm (got ${kbmFile}).`);
-    }
-  }
+  const scalaFile = normalizeScalaFilename(parts[0]);
+  const kbmFile = parts[1] ? normalizeKbmFilename(parts[1]) : globalKbm || "";
   return { scala: scalaFile, kbm: kbmFile || undefined };
 }
 
 function validateFilename(filename) {
-  if (filename.includes("/") || filename.includes("\\")) {
-    throw new Error(`Filenames must not include path separators: ${filename}`);
+  const invalid =
+    !filename ||
+    filename.trim().length === 0 ||
+    filename.startsWith(".") ||
+    /[\u0000-\u001F\u007F]/.test(filename) ||
+    filename.includes("/") ||
+    filename.includes("\\");
+  if (invalid) {
+    throw new Error("Filename must be a plain filename (no folders), like `my-scale.scl`");
   }
+}
+
+function ensureExtension(filename, extension) {
+  return path.extname(filename) ? filename : `${filename}${extension}`;
+}
+
+function normalizeScalaFilename(filename) {
+  const normalized = ensureExtension(filename.trim(), ".scl");
+  validateFilename(normalized);
+  const scalaExt = path.extname(normalized).toLowerCase();
+  if (![".scl", ".ascl", ".scala"].includes(scalaExt)) {
+    throw new Error(
+      `Invalid scala filename "${normalized}". Scala files must end in .scl, .ascl, or .scala. ` +
+        "Examples: my-scale.scl, other.ascl | other.kbm. " +
+        "If you omit the extension, it defaults to .scl."
+    );
+  }
+  return normalized;
 }
 
 function buildPackJson({ slug, title, description, author, authorUrl, tags, rootHz, primeLimit, scales }) {
