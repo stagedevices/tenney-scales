@@ -41,7 +41,7 @@ const scaleFilesRaw = requiredFieldAny(sections, [
   "Scale files list",
   "Scale file list",
   "Scale file list (filenames you intend to upload)",
-  "Scale file list (filenames they intend to upload)"
+  "Scale files list (filenames you intend to upload)"
 ]);
 const globalKbmRaw = optionalFieldAny(sections, ["Optional KBM filename", "Optional KBM filename (optional)"]);
 const licenseRaw = requiredFieldAny(sections, ["License confirmation"]);
