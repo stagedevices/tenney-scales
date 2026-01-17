@@ -1,7 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
-import path from "node:path";
 import { execFileSync } from "node:child_process";
 
 const packsDir = path.join(process.cwd(), "packs");
