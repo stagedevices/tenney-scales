@@ -1,6 +1,6 @@
 import path from "node:path";
 import { listPackSlugs, loadPack } from "./pack.js";
-import { packsDir, writeJsonFile, stableIsoString } from "./utils.js";
+import { packsDir, writeJsonFile, normalizeISO8601NoMillis } from "./utils.js";
 
 export type IndexEntry = {
   slug: string;
@@ -27,7 +27,7 @@ export async function generateIndex(): Promise<void> {
   for (const slug of slugs) {
     const pack = await loadPack(slug);
     if (pack.updatedAt) {
-      const updated = stableIsoString(pack.updatedAt);
+      const updated = normalizeISO8601NoMillis(pack.updatedAt);
       if (updated > generatedAt) {
         generatedAt = updated;
       }
