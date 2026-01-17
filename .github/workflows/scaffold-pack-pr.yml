@@ -29,10 +29,12 @@ jobs:
       - name: Scaffold files
         run: |
           node tools/scaffold/scaffold-from-issue.mjs issue-body.txt --issue ${{ github.event.issue.number }} --output scaffold-output.json
-      - name: Capture scaffold outputs
+      
+    - name: Capture scaffold outputs
         id: scaffold
+        shell: bash
         run: |
-          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('scaffold-output.json','utf8'));const out=process.env.GITHUB_OUTPUT;fs.appendFileSync(out, `slug=${data.slug}\n`);fs.appendFileSync(out, `title=${data.title}\n`);"
+          node -e 'const fs=require("fs");const data=JSON.parse(fs.readFileSync("scaffold-output.json","utf8"));const out=process.env.GITHUB_OUTPUT;if(!out) throw new Error("GITHUB_OUTPUT missing");fs.appendFileSync(out, "slug="+data.slug+"\n");fs.appendFileSync(out, "title="+(data.title||"")+"\n");'
       - name: Create draft PR
         id: cpr
         uses: peter-evans/create-pull-request@v6
@@ -51,28 +53,34 @@ jobs:
             - [ ] Upload all files in a single action if possible
           draft: true
           delete-branch: false
-      - name: Update issue labels and comment
+     - name: Update issue labels and comment
         uses: actions/github-script@v7
-        with:
+        env:
+          SLUG: ${{ steps.scaffold.outputs.slug }}
+          PR_URL: ${{ steps.cpr.outputs.pull-request-url }}
+          with:
           script: |
             const issueNumber = context.issue.number;
-            const repo = context.repo.repo;
-            const owner = context.repo.owner;
-            const slug = `${{ steps.scaffold.outputs.slug }}`;
-            const prUrl = `${{ steps.cpr.outputs.pull-request-url }}`;
+            const { owner, repo } = context.repo;
+            const slug = process.env.SLUG;
+            const prUrl = process.env.PR_URL;
+
             await github.rest.issues.addLabels({
               owner,
               repo,
               issue_number: issueNumber,
               labels: ["status:pr-open", "status:awaiting-files"]
             });
+
             await github.rest.issues.removeLabel({
               owner,
               repo,
               issue_number: issueNumber,
               name: "status:triage"
             }).catch(() => {});
+
             const uploadUrl = `https://github.com/${owner}/${repo}/upload/packs/${slug}/packs/${slug}/sources`;
+
             const body = [
               `**Add files now →** ${uploadUrl}`,
               `**View draft PR →** ${prUrl}`,
@@ -85,9 +93,11 @@ jobs:
               `packs/${slug}/sources/<your files here>`,
               "```"
             ].join("\n");
+
             await github.rest.issues.createComment({
               owner,
               repo,
               issue_number: issueNumber,
               body
             });
+
