@@ -17,7 +17,7 @@ import {
   uuidV5,
   writeJsonFile,
   writeTextFile,
-  stableIsoString
+  normalizeISO8601NoMillis
 } from "./utils.js";
 import type { RatioRef, ScaleBuilderPayload } from "./types.js";
 
@@ -103,8 +103,8 @@ async function normalizePack(slug: string): Promise<void> {
     startInLibrary: true,
     existing: null,
     stagingBaseCount: null,
-    createdAt: stableIsoString(pack.createdAt ?? ""),
-    updatedAt: stableIsoString(pack.updatedAt ?? "")
+    createdAt: normalizeISO8601NoMillis(pack.createdAt ?? ""),
+    updatedAt: normalizeISO8601NoMillis(pack.updatedAt ?? "")
   };
 
   const tenneyDir = path.join(packRoot, "tenney");

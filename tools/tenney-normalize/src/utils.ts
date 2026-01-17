@@ -21,8 +21,16 @@ export async function writeTextFile(filePath: string, content: string): Promise<
   await fs.writeFile(filePath, content, "utf8");
 }
 
-export function stableIsoString(value: string): string {
-  return new Date(value).toISOString();
+export function formatISO8601NoMillis(date: Date): string {
+  return date.toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
+export function normalizeISO8601NoMillis(input: string): string {
+  const parsed = new Date(input);
+  if (Number.isNaN(parsed.getTime())) {
+    throw new Error(`Invalid ISO8601 date string: ${input}`);
+  }
+  return formatISO8601NoMillis(parsed);
 }
 
 export function uuidV5(name: string, namespace: string): string {

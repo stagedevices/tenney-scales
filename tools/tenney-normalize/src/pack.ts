@@ -2,13 +2,14 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import Ajv from "ajv/dist/2020";
 import addFormats from "ajv-formats";
-import { packsDir, readJsonFile, stableIsoString } from "./utils.js";
+import { packsDir, readJsonFile } from "./utils.js";
 import type { PackMetadata } from "./types.js";
 
 const schemaPath = path.join(process.cwd(), "schemas", "pack.schema.json");
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 let validateSchema: Ajv.ValidateFunction | null = null;
+const strictIso8601Regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
 
 export async function loadPack(slug: string): Promise<PackMetadata> {
   const packPath = path.join(packsDir, slug, "pack.json");
@@ -39,6 +40,11 @@ export function validatePackDates(pack: PackMetadata): void {
   if (!pack.createdAt || !pack.updatedAt) {
     throw new Error(
       `Pack '${pack.slug}' must include createdAt and updatedAt as ISO8601 strings.`
+    );
+  }
+  if (!strictIso8601Regex.test(pack.createdAt) || !strictIso8601Regex.test(pack.updatedAt)) {
+    throw new Error(
+      `Pack '${pack.slug}' createdAt/updatedAt must use YYYY-MM-DDTHH:MM:SSZ (no fractional seconds or timezone offsets).`
     );
   }
   const created = Date.parse(pack.createdAt);
