@@ -5,9 +5,13 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
-  normalize:
-    runs-on: ubuntu-latest
+  pr-checks:
+    if: github.event_name == 'pull_request'
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -18,15 +22,49 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Normalize and validate
-        run: npm run check
-
-  contract:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Validate pack schemas
+        run: npm run validate
+      - name: Normalize packs
+        run: npm run normalize
+      - name: Generate index
+        run: npm run index
       - name: Swift version
         run: swift --version
       - name: Run contract validator
         run: swift run --package-path tools/contract TenneyContractValidator
+
+  main-normalize:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && github.actor != 'github-actions[bot]'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Normalize packs
+        run: npm run normalize
+      - name: Generate index
+        run: npm run index
+      - name: Swift version
+        run: swift --version
+      - name: Run contract validator
+        run: swift run --package-path tools/contract TenneyContractValidator
+      - name: Commit generated outputs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add packs/**/tenney INDEX.json
+            git commit -m "chore: normalize packs [skip ci]"
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push origin HEAD:main
+          else
+            echo "No generated changes to commit."
+          fi
