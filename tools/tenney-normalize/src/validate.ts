@@ -2,8 +2,9 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { listPackSlugs, loadPack, validatePackDates, validateSlugMatchesFolder } from "./pack.js";
 import { packsDir } from "./utils.js";
+import type { PackInputs } from "./types.js";
 
-const MAX_SOURCE_BYTES = 2 * 1024 * 1024;
+const MAX_SOURCE_BYTES = 200 * 1024;
 
 export async function validatePacks(): Promise<void> {
   const slugs = await listPackSlugs();
@@ -14,7 +15,7 @@ export async function validatePacks(): Promise<void> {
       const pack = await loadPack(slug);
       validateSlugMatchesFolder(pack, slug);
       validatePackDates(pack);
-      await validateInputsExist(pack, slug);
+      await validateInputsExist(pack.inputs, slug);
       await validateSourcesSize(slug);
     } catch (error) {
       errors.push((error as Error).message);
@@ -26,12 +27,50 @@ export async function validatePacks(): Promise<void> {
   }
 }
 
-async function validateInputsExist(pack: { inputs: { scala: string; kbm?: string } }, slug: string) {
-  const scalaPath = path.join(packsDir, slug, pack.inputs.scala);
-  await fs.access(scalaPath);
-  if (pack.inputs.kbm) {
-    const kbmPath = path.join(packsDir, slug, pack.inputs.kbm);
-    await fs.access(kbmPath);
+async function validateInputsExist(inputs: PackInputs, slug: string): Promise<void> {
+  const errors: string[] = [];
+  if (inputs.scala) {
+    const scalaPath = path.join(packsDir, slug, inputs.scala);
+    try {
+      await fs.access(scalaPath);
+    } catch (error) {
+      errors.push(`Missing scala source: ${scalaPath}`);
+    }
+    if (inputs.kbm) {
+      const kbmPath = path.join(packsDir, slug, inputs.kbm);
+      try {
+        await fs.access(kbmPath);
+      } catch (error) {
+        errors.push(`Missing kbm source: ${kbmPath}`);
+      }
+    }
+  }
+
+  if (inputs.scales) {
+    for (const entry of inputs.scales) {
+      const scalaPath = path.join(packsDir, slug, entry.scala);
+      try {
+        await fs.access(scalaPath);
+      } catch (error) {
+        errors.push(`Missing scala source: ${scalaPath}`);
+      }
+      if (entry.kbm) {
+        const kbmPath = path.join(packsDir, slug, entry.kbm);
+        try {
+          await fs.access(kbmPath);
+        } catch (error) {
+          errors.push(`Missing kbm source: ${kbmPath}`);
+        }
+      }
+    }
+  }
+
+  if (!inputs.scala && (!inputs.scales || inputs.scales.length === 0)) {
+    errors.push(`Pack '${slug}' must include inputs.scala or inputs.scales.`);
+  }
+
+  if (errors.length > 0) {
+    throw new Error(errors.join("\n"));
   }
 }
 
@@ -46,6 +85,10 @@ async function validateSourcesSize(slug: string): Promise<void> {
     const stat = await fs.stat(filePath);
     if (stat.size > MAX_SOURCE_BYTES) {
       throw new Error(`Source file ${filePath} exceeds ${MAX_SOURCE_BYTES} bytes.`);
+    }
+    const buffer = await fs.readFile(filePath);
+    if (buffer.includes(0)) {
+      throw new Error(`Source file ${filePath} appears to be binary.`);
     }
   }
 }

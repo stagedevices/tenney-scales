@@ -19,7 +19,7 @@ import {
   writeTextFile,
   normalizeISO8601NoMillis
 } from "./utils.js";
-import type { RatioRef, ScaleBuilderPayload } from "./types.js";
+import type { PackScaleInput, RatioRef, ScaleBuilderPayload } from "./types.js";
 
 const UUID_NAMESPACE = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
 
@@ -36,14 +36,15 @@ export async function normalizePacks(): Promise<void> {
 async function normalizePack(slug: string): Promise<void> {
   const pack = await loadPack(slug);
   const packRoot = path.join(packsDir, slug);
-  const scalaPath = path.join(packRoot, pack.inputs.scala);
+  const primaryInput = resolvePrimaryInput(pack.inputs);
+  const scalaPath = path.join(packRoot, primaryInput.scala);
   const scalaRaw = await fs.readFile(scalaPath, "utf8");
   const scala = parseScala(scalaRaw);
   const title = pack.title || scala.description;
   const comments = scala.comments.filter((comment) => comment.length > 0);
   const notes = [pack.description, ...comments].filter(Boolean).join("\n");
 
-  const kbmPath = pack.inputs.kbm ? path.join(packRoot, pack.inputs.kbm) : null;
+  const kbmPath = primaryInput.kbm ? path.join(packRoot, primaryInput.kbm) : null;
   const kbmRaw = kbmPath ? await fs.readFile(kbmPath, "utf8") : null;
   const kbm = kbmRaw ? parseKbm(kbmRaw) : null;
 
@@ -121,6 +122,16 @@ async function normalizePack(slug: string): Promise<void> {
     const kbmExport = generateMinimalKbm(rootHz, refs.length + 1);
     await writeTextFile(path.join(tenneyDir, "export.kbm"), kbmExport);
   }
+}
+
+function resolvePrimaryInput(inputs: { scala?: string; kbm?: string; scales?: PackScaleInput[] }): PackScaleInput {
+  if (inputs.scales && inputs.scales.length > 0) {
+    return inputs.scales[0];
+  }
+  if (inputs.scala) {
+    return { scala: inputs.scala, kbm: inputs.kbm };
+  }
+  throw new Error("Pack inputs must include scala or scales.");
 }
 
 function buildScalaExport(description: string, refs: RatioRef[]): string {

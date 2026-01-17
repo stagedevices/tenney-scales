@@ -1,0 +1,93 @@
+name: Scaffold pack PR
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  scaffold:
+    if: contains(github.event.issue.labels.*.name, 'pack')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Write issue body
+        run: |
+          node -e "const fs=require('fs');const event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));fs.writeFileSync('issue-body.txt', event.issue.body || '');"
+      - name: Scaffold files
+        run: |
+          node tools/scaffold/scaffold-from-issue.mjs issue-body.txt --issue ${{ github.event.issue.number }} --output scaffold-output.json
+      - name: Capture scaffold outputs
+        id: scaffold
+        run: |
+          node -e "const fs=require('fs');const data=JSON.parse(fs.readFileSync('scaffold-output.json','utf8'));const out=process.env.GITHUB_OUTPUT;fs.appendFileSync(out, `slug=${data.slug}\n`);fs.appendFileSync(out, `title=${data.title}\n`);"
+      - name: Create draft PR
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: packs/${{ steps.scaffold.outputs.slug }}
+          base: main
+          commit-message: "chore: scaffold pack ${{ steps.scaffold.outputs.slug }}"
+          title: "Pack: ${{ steps.scaffold.outputs.slug }}"
+          body: |
+            Closes #${{ github.event.issue.number }}
+
+            ## Checklist
+            - [ ] Upload files into `packs/${{ steps.scaffold.outputs.slug }}/sources/`
+            - [ ] One scale per line; KBM optional per scale
+            - [ ] Upload all files in a single action if possible
+          draft: true
+          delete-branch: false
+      - name: Update issue labels and comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+            const slug = `${{ steps.scaffold.outputs.slug }}`;
+            const prUrl = `${{ steps.cpr.outputs.pull-request-url }}`;
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              labels: ["status:pr-open", "status:awaiting-files"]
+            });
+            await github.rest.issues.removeLabel({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              name: "status:triage"
+            }).catch(() => {});
+            const uploadUrl = `https://github.com/${owner}/${repo}/upload/packs/${slug}/packs/${slug}/sources`;
+            const body = [
+              `**Add files now →** ${uploadUrl}`,
+              `**View draft PR →** ${prUrl}`,
+              "",
+              "Upload multiple files at once; it will be a single commit on this PR.",
+              "",
+              "Paths:",
+              "```",
+              `packs/${slug}/pack.json`,
+              `packs/${slug}/sources/<your files here>`,
+              "```"
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body
+            });
