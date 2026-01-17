@@ -146,78 +146,83 @@ body:
         - `packs/<slug>/sources/<yourfile>.scl` (or `.ascl` / `.scala`)
         - `packs/<slug>/sources/<optional>.kbm`
 
-        ## Paste-ready `pack.json` (for reference only — the bot creates this)
-
-        Timestamps must be ISO8601 with `Z` and **no milliseconds**:
-        `YYYY-MM-DDTHH:MM:SSZ`
-
-        ```json
-        {
-          "slug": "<slug>",
-          "title": "<pack title>",
-          "description": "<short description>",
-          "author": "<author display name>",
-          "authorUrl": "https://example.com",
-          "license": "CC0-1.0",
-          "tags": ["ji", "microtonal"],
-          "createdAt": "1970-01-01T00:00:00Z",
-          "updatedAt": "1970-01-01T00:00:00Z",
-          "defaults": { "rootHz": 440, "primeLimit": 13 },
-          "inputs": {
-            "scales": [
-              { "scala": "sources/<file>.scl", "kbm": "sources/<file>.kbm" }
-            ]
-          }
-        }
-        ```
-
         If you don’t have an author URL, the bot will omit `authorUrl` (empty strings won’t validate).
 
-        ## Paste-ready Scala template (.scl / .ascl)
+        ## Paste-ready Scala template (.scl)
 
-        `.ascl` is the same text as `.scl` — only the extension differs.
+        ```scl
+        ! 10 equal divisions of 2_1.scl
+        ! Created by 
+        ! link to your file if also hosted elsewhere or if you want to link somewhere (i.e website, etc) goes here
+        !
+        10 equal divisions of 2/1
+         10
+        !
+         120.000000
+         240.000000
+         360.000000
+         480.000000
+         600.000000
+         720.000000
+         840.000000
+         960.000000
+         1080.000000
+         2/1
+        ```
 
-        ```txt
-        ! <scale-name>.scl
+        ## Paste-ready Scala template (.ascl)
+
+        ```ascl
+        ! 10 equal divisions of 2_1.ascl
+        ! Created by
         !
-        <Short description of the scale>
-        <NUMBER_OF_NOTES>
+        10 equal divisions of 2/1
         !
-        1/1
-        16/15
-        9/8
-        6/5
-        5/4
-        4/3
-        45/32
-        3/2
-        8/5
-        5/3
-        9/5
-        15/8
-        2/1
+        ! default tuning: degree 0 = 440.00000000 Hz
+        !
+        10
+        !
+        120.00000000 ! 1\10
+        240.00000000 ! 2\10
+        360.00000000 ! 3\10
+        480.00000000 ! 4\10
+        600.00000000 ! 5\10
+        720.00000000 ! 6\10
+        840.00000000 ! 7\10
+        960.00000000 ! 8\10
+        1080.00000000 ! 9\10
+        2/1 ! 10\10
+        !
+        ! @ABL NOTE_NAMES "10\10" "1\10" "2\10" "3\10" "4\10" "5\10" "6\10" "7\10" "8\10" "9\10"
+        ! @ABL REFERENCE_PITCH 4 0 440.00000000
+        ! @ABL SOURCE Your name
+        ! @ABL LINK link to your file if also hosted elsewhere or if you want to link somewhere (i.e website, etc)
         ```
 
         ## Paste-ready KBM template (.kbm) (optional)
 
-        ```txt
-        ! <scale-name>.kbm
+        ```kbm
+        ! Template for a keyboard mapping
         !
-        ! Size of map (pattern repeats every N keys):
-        12
+        ! Size of map. The pattern repeats every so many keys:
+        10
         ! First MIDI note number to retune:
         0
         ! Last MIDI note number to retune:
         127
         ! Middle note where the first entry of the mapping is mapped to:
-        60
+        69
         ! Reference note for which frequency is given:
         69
-        ! Frequency to tune the above note to:
-        440.0
-        ! Scale degree to consider as formal octave:
-        12
-        ! Mapping (one integer per line; 0..N-1). Use 'x' to skip a key.
+        ! Frequency to tune the above note to
+        440
+        ! Scale degree to consider as formal octave (determines difference in pitch
+        ! between adjacent mapping patterns):
+        10
+        ! Mapping.
+        ! The numbers represent scale degrees mapped to keys. The first entry is for
+        ! the given middle note, the next for subsequent higher keys.
+        ! For an unmapped key, put in an "x". At the end, unmapped keys may be left out.
         0
         1
         2
@@ -228,8 +233,6 @@ body:
         7
         8
         9
-        10
-        11
         ```
 
         If you don’t have a KBM file, you can omit it — CI will generate a minimal export mapping.
