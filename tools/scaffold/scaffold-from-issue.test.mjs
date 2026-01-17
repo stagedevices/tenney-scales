@@ -13,6 +13,7 @@ function buildIssueBody(overrides = {}) {
     preferredSlug: "_No response_",
     author: "Test Author",
     authorUrl: "_No response_",
+    descriptionLabel: "Short description",
     description: "A short description.",
     tags: "tag-one, tag-two",
     rootHz: "440",
@@ -35,7 +36,7 @@ function buildIssueBody(overrides = {}) {
     "### Author URL (optional)",
     values.authorUrl,
     "",
-    "### Short description",
+    `### ${values.descriptionLabel}`,
     values.description,
     "",
     "### Tags (comma-separated)",
@@ -106,4 +107,14 @@ test("invalid scala extension throws with helpful message", () => {
   assert.notEqual(result.status, 0);
   const output = `${result.stdout}\n${result.stderr}`;
   assert.match(output, /\.scl, \.ascl, or \.scala/);
+});
+
+test("supports short description label with 1–3 sentences suffix", () => {
+  const { result, outputPath, tempDir } = runScaffold(
+    buildIssueBody({ descriptionLabel: "Short description (1–3 sentences)" })
+  );
+  assert.equal(result.status, 0, result.stderr);
+  const output = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+  const pack = readPackJson(tempDir, output.slug);
+  assert.equal(pack.description, "A short description.");
 });

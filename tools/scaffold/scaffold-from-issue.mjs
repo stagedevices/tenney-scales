@@ -28,7 +28,12 @@ const preferredSlug = optionalFieldAny(sections, [
 ]);
 const author = requiredFieldAny(sections, ["Author display name", "Author name", "Author display name"]);
 const authorUrl = optionalFieldAny(sections, ["Author URL (optional)", "Author URL"]);
-const description = requiredFieldAny(sections, ["Short description", "Description (1–3 sentences)"]);
+const description = requiredFieldAny(sections, [
+  "Short description",
+  "Short description (1–3 sentences)",
+  "Description (1–3 sentences)",
+  "Description"
+]);
 const tagsRaw = requiredFieldAny(sections, ["Tags (comma-separated)", "Tags"]);
 const rootHzRaw = requiredFieldAny(sections, ["defaults.rootHz", "Root Hz default", "Root Hz"]);
 const primeLimitRaw = requiredFieldAny(sections, ["defaults.primeLimit", "Prime limit default", "Prime limit"]);
@@ -135,7 +140,11 @@ function requiredFieldAny(sectionsMap, labels) {
       return value.trim();
     }
   }
-  throw new Error(`Missing required field: ${labels[0]}`);
+  const foundHeadings = Array.from(sectionsMap.keys()).join(", ");
+  throw new Error(
+    `Missing required field. Tried: ${labels.join(" | ")}. ` +
+      `Found headings: ${foundHeadings || "none"}`
+  );
 }
 
 function optionalFieldAny(sectionsMap, labels) {
