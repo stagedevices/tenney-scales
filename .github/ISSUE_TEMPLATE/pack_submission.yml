@@ -4,24 +4,89 @@ title: "Pack submission: <slug>"
 labels: ["pack"]
 body:
   - type: input
-    id: slug
-    attributes:
-      label: Pack slug (kebab-case)
-      placeholder: "example-pack"
-    validations:
-      required: true
-  - type: input
     id: title
     attributes:
       label: Pack title
+      placeholder: "Your pack title"
+    validations:
+      required: true
+  - type: input
+    id: slug
+    attributes:
+      label: Suggested slug (kebab-case)
+      description: "Derive from the title: lowercase, numbers ok, dash-separated, no spaces/underscores, 3–48 chars. Examples: barthopoulos-ji-basics, example-12tet, partch-43."
+      placeholder: "example-12tet"
     validations:
       required: true
   - type: input
     id: author
     attributes:
-      label: Author credit
+      label: Author name
+      placeholder: "Jane Doe"
     validations:
       required: true
+  - type: input
+    id: author_url
+    attributes:
+      label: Author URL (optional)
+      placeholder: "https://example.com"
+    validations:
+      required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Description (1–3 sentences)
+      placeholder: "A short description of the tuning and its use."
+    validations:
+      required: true
+  - type: input
+    id: tags
+    attributes:
+      label: Tags (comma-separated)
+      placeholder: "ji, microtonal, tutorial"
+    validations:
+      required: true
+  - type: input
+    id: root_hz
+    attributes:
+      label: defaults.rootHz
+      description: "Root frequency in Hz."
+      placeholder: "440"
+    validations:
+      required: true
+  - type: dropdown
+    id: prime_limit
+    attributes:
+      label: defaults.primeLimit
+      description: "Prime limit for the pack."
+      options:
+        - "5"
+        - "7"
+        - "11"
+        - "13"
+        - "17"
+        - "19"
+        - "23"
+        - "31"
+      default: "13"
+    validations:
+      required: true
+  - type: input
+    id: scala_files
+    attributes:
+      label: Scala filename(s) you’ll upload
+      description: "One or more .scl/.ascl/.scala filenames."
+      placeholder: "my-scale.scl"
+    validations:
+      required: true
+  - type: input
+    id: kbm_file
+    attributes:
+      label: Optional KBM filename
+      description: "If you have one, the .kbm filename."
+      placeholder: "my-scale.kbm"
+    validations:
+      required: false
   - type: checkboxes
     id: license
     attributes:
@@ -29,16 +94,43 @@ body:
       options:
         - label: "I confirm this pack is licensed under CC0-1.0"
           required: true
-  - type: textarea
-    id: files
+  - type: markdown
     attributes:
-      label: Source files
-      description: List the Scala/KBM files you will upload (paths under packs/<slug>/sources).
-      placeholder: "sources/scale.scl, sources/scale.kbm"
-    validations:
-      required: true
-  - type: textarea
-    id: notes
-    attributes:
-      label: Notes
-      description: Any extra details about the tuning or provenance.
+      value: |
+        ## Next steps (copy/paste + upload)
+
+        **Upload files:**
+        https://github.com/stagedevices/tenney-scales/upload/main
+
+        **Open PR:**
+        https://github.com/stagedevices/tenney-scales/compare
+
+        **Create these paths:**
+        - `packs/<slug>/pack.json`
+        - `packs/<slug>/sources/<yourfile>.scl` (or `.ascl` / `.scala`)
+        - `packs/<slug>/sources/<optional>.kbm`
+
+        **Fast path (2 clicks):**
+        1. Create `packs/<slug>/pack.json` (Add file → Create new file)
+        2. Upload `.scl/.ascl` (+ optional `.kbm`) into `packs/<slug>/sources/` (Add file → Upload files)
+        3. Click the banner “Create pull request” or open `…/compare`
+
+        **Paste-ready `pack.json` template** (set both timestamps to *today* in this exact format; **no milliseconds**):
+
+        ```json
+        {
+          "slug": "<slug>",
+          "title": "<title>",
+          "description": "<description>",
+          "author": "<author>",
+          "authorUrl": "https://example.com",
+          "license": "CC0-1.0",
+          "tags": ["<tag1>", "<tag2>"],
+          "createdAt": "2026-01-01T00:00:00Z",
+          "updatedAt": "2026-01-01T00:00:00Z",
+          "defaults": { "rootHz": 440, "primeLimit": 13 },
+          "inputs": { "scala": "sources/<file>.scl", "kbm": "sources/<file>.kbm" }
+        }
+        ```
+
+        If you don’t have an author URL, remove the `authorUrl` line entirely (empty strings won’t validate).
