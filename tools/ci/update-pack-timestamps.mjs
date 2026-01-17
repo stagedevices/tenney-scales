@@ -2,7 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 
-const packsDir = path.join(process.cwd(), "packs");
+const repoRoot = execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim();
+const packsDir = path.join(repoRoot, "packs");
 if (!fs.existsSync(packsDir)) {
   process.exit(0);
 }
@@ -11,21 +12,24 @@ const entries = fs.readdirSync(packsDir, { withFileTypes: true }).filter((entry)
 
 for (const entry of entries) {
   const slug = entry.name;
-  const packPath = path.join(packsDir, slug, "pack.json");
+    const packDirPath = path.join(packsDir, slug);
+    const packPath = path.join(packDirPath, "pack.json");
   if (!fs.existsSync(packPath)) {
     continue;
   }
-    const createdAt = gitDateForFile(packJsonPath);
-    const relDir = toRepoRel(packDirPath) ?? ".";
-    const updatedAt = gitOut(["log", "-1", "--format=%cI", "--", relDir]);
+    const createdAt = gitDateForFile(packPath);
+      const relDir = toRepoRel(packDirPath) ?? ".";
+  let updatedAt = "";
+     try {
+        updatedAt = gitOut(["log", "-1", "--format=%cI", "--", relDir]);
+      } catch {}
+      if (!updatedAt) updatedAt = gitOut(["show", "-s", "--format=%cI", "HEAD"]);
 
   const pack = JSON.parse(fs.readFileSync(packPath, "utf8"));
   pack.createdAt = createdAt;
   pack.updatedAt = updatedAt;
   fs.writeFileSync(packPath, JSON.stringify(pack, null, 2) + "\n", "utf8");
 }
-
-const repoRoot = execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim();
 
 function toRepoRel(p) {
   const rel = path.relative(repoRoot, p);
