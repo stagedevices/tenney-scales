@@ -89,18 +89,20 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
+  - type: dropdown
     id: multi_scale
     attributes:
       label: Multiple scales per pack?
       options:
-        - label: "Yes, this pack will include multiple scales (one .scl/.ascl/.scala per scale; optional .kbm per scale)"
-          required: false
+        - "Yes, this pack will include multiple scales (one .scl/.ascl/.scala per scale; optional .kbm per scale)"
+        - "No, this pack is a single scale"
+    validations:
+      required: true
 
   - type: textarea
     id: scale_files
     attributes:
-      label: Scale file list (filenames you intend to upload)
+      label: Scale files list (filenames you intend to upload)
       description: |
         One scale per line. Each line must include a filename ending in .scl, .ascl, or .scala.
         Optional KBM can be given after a separator: "|" (preferred) or ",".
