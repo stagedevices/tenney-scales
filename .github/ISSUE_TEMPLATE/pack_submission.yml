@@ -1,0 +1,44 @@
+name: Pack submission
+description: Submit a new Tenney scale pack
+title: "Pack submission: <slug>"
+labels: ["pack"]
+body:
+  - type: input
+    id: slug
+    attributes:
+      label: Pack slug (kebab-case)
+      placeholder: "example-pack"
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Pack title
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author credit
+    validations:
+      required: true
+  - type: checkboxes
+    id: license
+    attributes:
+      label: License confirmation
+      options:
+        - label: "I confirm this pack is licensed under CC0-1.0"
+          required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Source files
+      description: List the Scala/KBM files you will upload (paths under packs/<slug>/sources).
+      placeholder: "sources/scale.scl, sources/scale.kbm"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any extra details about the tuning or provenance.

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00Z",
+  "packs": [
+    {
+      "slug": "example-12tet",
+      "title": "Example 12-TET",
+      "description": "A minimal 12-tone equal temperament example pack.",
+      "author": "Tenney Community",
+      "authorUrl": "https://example.com",
+      "license": "CC0-1.0",
+      "tags": [
+        "equal-temperament",
+        "example"
+      ],
+      "defaults": {
+        "rootHz": 440,
+        "primeLimit": 13
+      },
+      "files": {
+        "tenney": "packs/example-12tet/tenney/scale-builder.json",
+        "scl": "packs/example-12tet/tenney/export.scl",
+        "ascl": "packs/example-12tet/tenney/export.ascl",
+        "kbm": "packs/example-12tet/tenney/export.kbm"
+      }
+    }
+  ]
+}
