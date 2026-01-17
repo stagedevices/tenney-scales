@@ -14,7 +14,7 @@ body:
   - type: input
     id: slug
     attributes:
-      label: Suggested slug (kebab-case, e.g. my-scale)
+      label: Suggested slug (kebab-case)
       description: "Derive from the title: lowercase, numbers ok, dash-separated, no spaces/underscores, 3–48 chars. Examples: barthopoulos-ji-basics, example-12tet, partch-43."
       placeholder: "example-12tet"
     validations:
@@ -126,7 +126,11 @@ body:
         2. Upload `.scl/.ascl` (+ optional `.kbm`) into `packs/<slug>/sources/` (Add file → Upload files)
         3. Click the banner “Create pull request” or open `…/compare`
 
-        **Paste-ready `pack.json` template** (set both timestamps to *today* in this exact format; **no milliseconds**):
+        ---
+
+        ## Paste-ready `pack.json` template
+
+        Set both timestamps to *today* in this exact format: `YYYY-MM-DDTHH:MM:SSZ` (**no milliseconds**).
 
         ```json
         {
@@ -145,3 +149,101 @@ body:
         ```
 
         If you don’t have an author URL, remove the `authorUrl` line entirely (empty strings won’t validate).
+
+        ---
+
+        ## Paste-ready Scala scale file (12-TET example)
+
+        Create: `packs/<slug>/sources/<file>.scl`
+
+        ```text
+        ! <file>.scl
+        !
+        12-TET (example)
+        12
+        !
+        100.0
+        200.0
+        300.0
+        400.0
+        500.0
+        600.0
+        700.0
+        800.0
+        900.0
+        1000.0
+        1100.0
+        2/1
+        ```
+
+        Notes:
+        - The final line is the octave (`2/1`). If your scale already includes 1/1 explicitly, that’s okay.
+        - Cents lines may be decimals; ratio lines may be `p/q`.
+
+        ---
+
+        ## Paste-ready Ableton Scala file (same content, different extension)
+
+        Create: `packs/<slug>/sources/<file>.ascl`
+
+        ```text
+        ! <file>.ascl
+        !
+        12-TET (example)
+        12
+        !
+        100.0
+        200.0
+        300.0
+        400.0
+        500.0
+        600.0
+        700.0
+        800.0
+        900.0
+        1000.0
+        1100.0
+        2/1
+        ```
+
+        ---
+
+        ## Paste-ready KBM mapping (optional, minimal)
+
+        Create: `packs/<slug>/sources/<file>.kbm`
+
+        This is a conservative “one octave, 12 keys” mapping with A4 = 440 Hz and MIDI 69 as reference.
+        If you don’t know KBM yet, you can skip it.
+
+        ```text
+        ! <file>.kbm
+        !
+        12
+        0
+        127
+        69
+        440.0
+        0
+        0
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        ```
+
+        KBM quick meanings (very brief):
+        - `12` = mapping size
+        - `69` + `440.0` = reference (A4)
+        - last 12 lines map keys to degrees `0..11`
+
+        If you want “no mapping,” omit the KBM entirely.
+
+        ---
+        When your PR is opened, CI will validate + normalize and generate `packs/<slug>/tenney/*` automatically after merge.
