@@ -10,6 +10,7 @@ body:
       placeholder: "Your pack title"
     validations:
       required: true
+
   - type: input
     id: slug
     attributes:
@@ -18,6 +19,7 @@ body:
       placeholder: "example-12tet"
     validations:
       required: true
+
   - type: input
     id: author
     attributes:
@@ -25,6 +27,7 @@ body:
       placeholder: "Jane Doe"
     validations:
       required: true
+
   - type: input
     id: author_url
     attributes:
@@ -32,6 +35,7 @@ body:
       placeholder: "https://example.com"
     validations:
       required: false
+
   - type: textarea
     id: description
     attributes:
@@ -39,6 +43,7 @@ body:
       placeholder: "A short description of the tuning and its use."
     validations:
       required: true
+
   - type: input
     id: tags
     attributes:
@@ -46,6 +51,7 @@ body:
       placeholder: "ji, microtonal, tutorial"
     validations:
       required: true
+
   - type: input
     id: root_hz
     attributes:
@@ -54,6 +60,7 @@ body:
       placeholder: "440"
     validations:
       required: true
+
   - type: dropdown
     id: prime_limit
     attributes:
@@ -68,9 +75,10 @@ body:
         - "19"
         - "23"
         - "31"
-      default: "13"
+      default: 3
     validations:
       required: true
+
   - type: input
     id: scala_files
     attributes:
@@ -79,6 +87,7 @@ body:
       placeholder: "my-scale.scl"
     validations:
       required: true
+
   - type: input
     id: kbm_file
     attributes:
@@ -87,6 +96,7 @@ body:
       placeholder: "my-scale.kbm"
     validations:
       required: false
+
   - type: checkboxes
     id: license
     attributes:
@@ -94,6 +104,7 @@ body:
       options:
         - label: "I confirm this pack is licensed under CC0-1.0"
           required: true
+
   - type: markdown
     attributes:
       value: |
