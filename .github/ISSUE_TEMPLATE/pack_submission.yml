@@ -1,27 +1,36 @@
 name: Pack submission
-description: Submit a new Tenney scale pack
-title: "Pack submission: <slug>"
+description: Submit a new Tenney scale pack (we’ll scaffold a PR for you)
+title: "Pack submission: <pack title>"
 labels: ["pack", "status:triage"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit this form to start a new pack. After you submit, a bot will open a **draft PR** with the folder scaffold.
+        You’ll then upload your `.scl/.ascl/.scala` (and optional `.kbm`) into the PR branch — **not main**.
+
   - type: input
-    id: title
+    id: pack_title
     attributes:
       label: Pack title
-      placeholder: "Your pack title"
+      placeholder: "My favorite JI pack"
     validations:
       required: true
 
   - type: input
-    id: slug
+    id: preferred_slug
     attributes:
-      label: Preferred slug
-      description: "Use kebab-case: lowercase letters, digits, hyphens only, 3–48 chars. No spaces or underscores. Example: barthopoulos-ji-basics"
-      placeholder: "example-12tet"
+      label: Preferred slug (optional)
+      description: |
+        Leave blank to auto-generate from the title.
+        Slug rules: lowercase a–z / 0–9 / hyphens only, 3–48 chars. No spaces or underscores.
+        Examples: partch-43, barthopoulos-ji-basics, example-12tet
+      placeholder: "leave blank to auto-generate"
     validations:
-      required: true
+      required: false
 
   - type: input
-    id: author
+    id: author_name
     attributes:
       label: Author display name
       placeholder: "Jane Doe"
@@ -37,10 +46,9 @@ body:
       required: false
 
   - type: textarea
-    id: description
+    id: pack_description
     attributes:
-      label: Short description
-      description: "1–3 sentences."
+      label: Short description (1–3 sentences)
       placeholder: "A short description of the tuning and its use."
     validations:
       required: true
@@ -53,20 +61,11 @@ body:
     validations:
       required: true
 
-  - type: input
-    id: root_hz
-    attributes:
-      label: defaults.rootHz
-      description: "Numeric root frequency in Hz (e.g. 440)."
-      placeholder: "440"
-    validations:
-      required: true
-
   - type: dropdown
     id: prime_limit
     attributes:
-      label: defaults.primeLimit
-      description: "Prime limit for the pack."
+      label: Prime limit default
+      description: "Prime limit to use when normalizing/approximating cents into ratios."
       options:
         - "5"
         - "7"
@@ -80,40 +79,40 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
-    id: multiple_scales
+  - type: input
+    id: root_hz
     attributes:
-      label: Multiple scales per pack
+      label: Root Hz default
+      description: "Root frequency in Hz (e.g. 440)."
+      placeholder: "440"
+      value: "440"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: multi_scale
+    attributes:
+      label: Multiple scales per pack?
       options:
-        - label: "Yes, this pack includes multiple scales"
+        - label: "Yes, this pack will include multiple scales (one .scl/.ascl/.scala per scale; optional .kbm per scale)"
           required: false
 
   - type: textarea
     id: scale_files
     attributes:
-      label: Scale files list
+      label: Scale file list (filenames you intend to upload)
       description: |
-        List the scale files you will upload.
-
-        * One scale per line
-        * Accepted formats: .scl, .ascl, .scala
-        * Optional KBM per scale:
-          * `myscale.scl, mymap.kbm` (comma) OR `myscale.scl | mymap.kbm` (pipe)
-        * If you also fill in the single KBM filename below, it will be used for any lines that omit a KBM
+        One scale per line. Each line must include a filename ending in .scl, .ascl, or .scala.
+        Optional KBM can be given after a separator: "|" (preferred) or ",".
+        Examples:
+          my-scale.scl
+          bohlen-pierce.ascl | bohlen-pierce.kbm
+          pelog.scala, pelog.kbm
       placeholder: |
-        myscale.scl
-        mysecond.scala, mymap.kbm
+        my-scale.scl
+        other-scale.ascl | other-scale.kbm
     validations:
       required: true
-
-  - type: input
-    id: kbm_file
-    attributes:
-      label: Optional KBM filename
-      description: "Default .kbm mapping to apply to any lines above that omit a KBM."
-      placeholder: "mymap.kbm"
-    validations:
-      required: false
 
   - type: checkboxes
     id: license
@@ -126,10 +125,109 @@ body:
   - type: markdown
     attributes:
       value: |
-        **What happens next**
+        ## What happens next
 
-        * When you submit this issue, a draft PR will be created automatically.
-        * You’ll get an **“Add files now”** link that takes you straight to `packs/<slug>/sources/` on the PR branch.
+        1) A bot will open a **draft PR** with:
+           - `packs/<slug>/pack.json`
+           - `packs/<slug>/sources/` (empty — you upload here)
+        2) You upload your files into the PR branch.
+        3) When merged, CI generates:
+           - `packs/<slug>/tenney/*`
+           - root `INDEX.json`
 
-        Public link to this form:
-        https://github.com/stagedevices/tenney-scales/issues/new?template=pack_submission.yml
+        You’ll get a comment on the issue with two big links:
+        - **Add files now** (uploads into the PR branch at the correct folder)
+        - **View draft PR**
+
+        ## File paths you will upload (copy/paste)
+
+        - `packs/<slug>/sources/<yourfile>.scl` (or `.ascl` / `.scala`)
+        - `packs/<slug>/sources/<optional>.kbm`
+
+        ## Paste-ready `pack.json` (for reference only — the bot creates this)
+
+        Timestamps must be ISO8601 with `Z` and **no milliseconds**:
+        `YYYY-MM-DDTHH:MM:SSZ`
+
+        ```json
+        {
+          "slug": "<slug>",
+          "title": "<pack title>",
+          "description": "<short description>",
+          "author": "<author display name>",
+          "authorUrl": "https://example.com",
+          "license": "CC0-1.0",
+          "tags": ["ji", "microtonal"],
+          "createdAt": "1970-01-01T00:00:00Z",
+          "updatedAt": "1970-01-01T00:00:00Z",
+          "defaults": { "rootHz": 440, "primeLimit": 13 },
+          "inputs": {
+            "scales": [
+              { "scala": "sources/<file>.scl", "kbm": "sources/<file>.kbm" }
+            ]
+          }
+        }
+        ```
+
+        If you don’t have an author URL, the bot will omit `authorUrl` (empty strings won’t validate).
+
+        ## Paste-ready Scala template (.scl / .ascl)
+
+        `.ascl` is the same text as `.scl` — only the extension differs.
+
+        ```txt
+        ! <scale-name>.scl
+        !
+        <Short description of the scale>
+        <NUMBER_OF_NOTES>
+        !
+        1/1
+        16/15
+        9/8
+        6/5
+        5/4
+        4/3
+        45/32
+        3/2
+        8/5
+        5/3
+        9/5
+        15/8
+        2/1
+        ```
+
+        ## Paste-ready KBM template (.kbm) (optional)
+
+        ```txt
+        ! <scale-name>.kbm
+        !
+        ! Size of map (pattern repeats every N keys):
+        12
+        ! First MIDI note number to retune:
+        0
+        ! Last MIDI note number to retune:
+        127
+        ! Middle note where the first entry of the mapping is mapped to:
+        60
+        ! Reference note for which frequency is given:
+        69
+        ! Frequency to tune the above note to:
+        440.0
+        ! Scale degree to consider as formal octave:
+        12
+        ! Mapping (one integer per line; 0..N-1). Use 'x' to skip a key.
+        0
+        1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        ```
+
+        If you don’t have a KBM file, you can omit it — CI will generate a minimal export mapping.
