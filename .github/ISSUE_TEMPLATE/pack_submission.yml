@@ -14,7 +14,7 @@ body:
   - type: input
     id: slug
     attributes:
-      label: Suggested slug (kebab-case)
+      label: Suggested slug (kebab-case, e.g. my-scale)
       description: "Derive from the title: lowercase, numbers ok, dash-separated, no spaces/underscores, 3–48 chars. Examples: barthopoulos-ji-basics, example-12tet, partch-43."
       placeholder: "example-12tet"
     validations:
