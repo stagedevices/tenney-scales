@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "generatedAt": "2026-01-21T10:47:26Z",
   "packs": [
     {
@@ -30,12 +30,328 @@
         "rootHz": 440,
         "primeLimit": 13
       },
-      "files": {
-        "tenney": "packs/european-historical-tunings/tenney/scale-builder.json",
-        "scl": "packs/european-historical-tunings/tenney/export.scl",
-        "ascl": "packs/european-historical-tunings/tenney/export.ascl",
-        "kbm": "packs/european-historical-tunings/tenney/export.kbm"
-      }
+      "scales": [
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/pythagorean-diatonic-3limit.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/pythagorean-diatonic-3limit/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/pythagorean-diatonic-3limit/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/pythagorean-diatonic-3limit/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/pythagorean-diatonic-3limit/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/pythagorean-chromatic-12.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/pythagorean-chromatic-12/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/pythagorean-chromatic-12/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/pythagorean-chromatic-12/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/pythagorean-chromatic-12/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/henricus-grammateus-12.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/henricus-grammateus-12/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/henricus-grammateus-12/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/henricus-grammateus-12/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/henricus-grammateus-12/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/tertial-center-c.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/tertial-center-c/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/tertial-center-c/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/tertial-center-c/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/tertial-center-c/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/tertial-dflat-fsharp-center-c.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/tertial-dflat-fsharp-center-c/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/tertial-dflat-fsharp-center-c/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/tertial-dflat-fsharp-center-c/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/tertial-dflat-fsharp-center-c/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/tertial-quintal-erlanger-traktat.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/tertial-quintal-erlanger-traktat/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/tertial-quintal-erlanger-traktat/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/tertial-quintal-erlanger-traktat/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/tertial-quintal-erlanger-traktat/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/meantone-1of4-quintal-comma.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/meantone-1of4-quintal-comma/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/meantone-1of4-quintal-comma/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/meantone-1of4-quintal-comma/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/meantone-1of4-quintal-comma/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/meantone-1of5-quintal-comma.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/meantone-1of5-quintal-comma/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/meantone-1of5-quintal-comma/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/meantone-1of5-quintal-comma/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/meantone-1of5-quintal-comma/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/meantone-1of3-quintal-comma.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/meantone-1of3-quintal-comma/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/meantone-1of3-quintal-comma/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/meantone-1of3-quintal-comma/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/meantone-1of3-quintal-comma/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/meantone-2of7-quintal-comma.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/meantone-2of7-quintal-comma/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/meantone-2of7-quintal-comma/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/meantone-2of7-quintal-comma/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/meantone-2of7-quintal-comma/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/meantone-1of6-tertial-comma.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/meantone-1of6-tertial-comma/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/meantone-1of6-tertial-comma/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/meantone-1of6-tertial-comma/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/meantone-1of6-tertial-comma/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/werckmeister-iii.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/werckmeister-iii/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/werckmeister-iii/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/werckmeister-iii/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/werckmeister-iii/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/vallotti.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/vallotti/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/vallotti/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/vallotti/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/vallotti/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/kirnberger-iii.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/kirnberger-iii/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/kirnberger-iii/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/kirnberger-iii/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/kirnberger-iii/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/kellner.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/kellner/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/kellner/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/kellner/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/kellner/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/neidhardt-kleine-stadt.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/neidhardt-kleine-stadt/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/neidhardt-kleine-stadt/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/neidhardt-kleine-stadt/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/neidhardt-kleine-stadt/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/neidhardt-grosse-stadt.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/neidhardt-grosse-stadt/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/neidhardt-grosse-stadt/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/neidhardt-grosse-stadt/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/neidhardt-grosse-stadt/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/dalembert-rousseau.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/dalembert-rousseau/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/dalembert-rousseau/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/dalembert-rousseau/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/dalembert-rousseau/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/rameau.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/rameau/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/rameau/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/rameau/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/rameau/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/marpourg.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/marpourg/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/marpourg/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/marpourg/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/marpourg/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/lehman-wtc.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/lehman-wtc/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/lehman-wtc/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/lehman-wtc/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/lehman-wtc/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/helmholtz-24.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/helmholtz-24/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/helmholtz-24/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/helmholtz-24/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/helmholtz-24/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/twelve-tet-12edo.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/twelve-tet-12edo/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/twelve-tet-12edo/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/twelve-tet-12edo/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/twelve-tet-12edo/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/sabat-i-2016.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/sabat-i-2016/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/sabat-i-2016/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/sabat-i-2016/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/sabat-i-2016/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/sabat-ii.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/sabat-ii/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/sabat-ii/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/sabat-ii/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/sabat-ii/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/diatonic-major--pythagorean.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/diatonic-major--pythagorean/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/diatonic-major--pythagorean/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/diatonic-major--pythagorean/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/diatonic-major--pythagorean/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/diatonic-major--meantone-1of4.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/diatonic-major--meantone-1of4/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/diatonic-major--meantone-1of4/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/diatonic-major--meantone-1of4/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/diatonic-major--meantone-1of4/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/diatonic-major--vallotti.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/diatonic-major--vallotti/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/diatonic-major--vallotti/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/diatonic-major--vallotti/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/diatonic-major--vallotti/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/diatonic-major--werckmeister-iii.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/diatonic-major--werckmeister-iii/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/diatonic-major--werckmeister-iii/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/diatonic-major--werckmeister-iii/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/diatonic-major--werckmeister-iii/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/diatonic-major--twelve-tet.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/diatonic-major--twelve-tet/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/diatonic-major--twelve-tet/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/diatonic-major--twelve-tet/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/diatonic-major--twelve-tet/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/young.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/young/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/young/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/young/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/young/export.kbm"
+          }
+        },
+        {
+          "title": "European Historical Tunings (Medieval to Romantic)",
+          "scalaPath": "packs/european-historical-tunings/sources/Neidhardt_Third-CircleNo4.scl",
+          "files": {
+            "tenney": "packs/european-historical-tunings/tenney/Neidhardt_Third-CircleNo4/scale-builder.json",
+            "scl": "packs/european-historical-tunings/tenney/Neidhardt_Third-CircleNo4/export.scl",
+            "ascl": "packs/european-historical-tunings/tenney/Neidhardt_Third-CircleNo4/export.ascl",
+            "kbm": "packs/european-historical-tunings/tenney/Neidhardt_Third-CircleNo4/export.kbm"
+          }
+        }
+      ]
     },
     {
       "slug": "example-12tet",
@@ -52,12 +368,18 @@
         "rootHz": 440,
         "primeLimit": 13
       },
-      "files": {
-        "tenney": "packs/example-12tet/tenney/scale-builder.json",
-        "scl": "packs/example-12tet/tenney/export.scl",
-        "ascl": "packs/example-12tet/tenney/export.ascl",
-        "kbm": "packs/example-12tet/tenney/export.kbm"
-      }
+      "scales": [
+        {
+          "title": "Example 12-TET",
+          "scalaPath": "packs/example-12tet/sources/12tet.scl",
+          "files": {
+            "tenney": "packs/example-12tet/tenney/scale-builder.json",
+            "scl": "packs/example-12tet/tenney/export.scl",
+            "ascl": "packs/example-12tet/tenney/export.ascl",
+            "kbm": "packs/example-12tet/tenney/export.kbm"
+          }
+        }
+      ]
     }
   ]
 }

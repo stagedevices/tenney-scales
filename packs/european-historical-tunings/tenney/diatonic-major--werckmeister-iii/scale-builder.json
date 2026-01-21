@@ -1,0 +1,75 @@
+{
+  "id": "d1274c0b-5013-5577-9118-13a18a2ec5a8",
+  "source": "library",
+  "title": "European Historical Tunings (Medieval to Romantic)",
+  "notes": "A wide survey of European historical keyboard tunings from the medieval Pythagorean world through Renaissance/Baroque comma-management (tertial + meantone families), canonical well temperaments (key color), and 19th-century extensions, with 12-TET included as a reference endpoint. This pack includes both full chromatic temperaments and a small set of “major-scale extracts” for fast A/B auditioning inside Tenney; filenames encode family + variant so the library stays navigable. All scales are shipped as freshly-authored Scala `.scl` files suitable for CC0 release and predictable CI export into Tenney’s format.\nDiatonic major (Werckmeister III)\nC-major degrees extracted from Werckmeister III.",
+  "rootHz": 440,
+  "primeLimit": 13,
+  "refs": [
+    {
+      "p": 10,
+      "q": 9,
+      "octave": 0,
+      "monzo": {
+        "2": 1,
+        "3": -2,
+        "5": 1
+      }
+    },
+    {
+      "p": 4,
+      "q": 3,
+      "octave": 0,
+      "monzo": {
+        "2": 2,
+        "3": -1
+      }
+    },
+    {
+      "p": 1024,
+      "q": 729,
+      "octave": 0,
+      "monzo": {
+        "2": 10,
+        "3": -6
+      }
+    },
+    {
+      "p": 3,
+      "q": 2,
+      "octave": 0,
+      "monzo": {
+        "2": -1,
+        "3": 1
+      }
+    },
+    {
+      "p": 147,
+      "q": 88,
+      "octave": 0,
+      "monzo": {
+        "2": -3,
+        "3": 1,
+        "7": 2,
+        "11": -1
+      }
+    },
+    {
+      "p": 15,
+      "q": 8,
+      "octave": 0,
+      "monzo": {
+        "2": -3,
+        "3": 1,
+        "5": 1
+      }
+    }
+  ],
+  "axisShift": {},
+  "autoplayAll": false,
+  "startInLibrary": true,
+  "existing": null,
+  "stagingBaseCount": null,
+  "createdAt": "2026-01-21T10:49:02Z",
+  "updatedAt": "2026-01-21T10:47:26Z"
+}
