@@ -1,0 +1,115 @@
+{
+  "id": "d1274c0b-5013-5577-9118-13a18a2ec5a8",
+  "source": "library",
+  "title": "European Historical Tunings (Medieval to Romantic)",
+  "notes": "A wide survey of European historical keyboard tunings from the medieval Pythagorean world through Renaissance/Baroque comma-management (tertial + meantone families), canonical well temperaments (key color), and 19th-century extensions, with 12-TET included as a reference endpoint. This pack includes both full chromatic temperaments and a small set of “major-scale extracts” for fast A/B auditioning inside Tenney; filenames encode family + variant so the library stays navigable. All scales are shipped as freshly-authored Scala `.scl` files suitable for CC0 release and predictable CI export into Tenney’s format.\nNeidhardt (1724, Grosse Stadt)\nDerived from Instrument-Tuner temperament table.",
+  "rootHz": 440,
+  "primeLimit": 13,
+  "refs": [
+    {
+      "p": 28,
+      "q": 25,
+      "octave": 0,
+      "monzo": {
+        "2": 2,
+        "5": -2,
+        "7": 1
+      }
+    },
+    {
+      "p": 196,
+      "q": 165,
+      "octave": 0,
+      "monzo": {
+        "2": 2,
+        "3": -1,
+        "5": -1,
+        "7": 2,
+        "11": -1
+      }
+    },
+    {
+      "p": 5,
+      "q": 4,
+      "octave": 0,
+      "monzo": {
+        "2": -2,
+        "5": 1
+      }
+    },
+    {
+      "p": 4,
+      "q": 3,
+      "octave": 0,
+      "monzo": {
+        "2": 2,
+        "3": -1
+      }
+    },
+    {
+      "p": 7,
+      "q": 5,
+      "octave": 0,
+      "monzo": {
+        "5": -1,
+        "7": 1
+      }
+    },
+    {
+      "p": 220,
+      "q": 147,
+      "octave": 0,
+      "monzo": {
+        "2": 2,
+        "3": -1,
+        "5": 1,
+        "7": -2,
+        "11": 1
+      }
+    },
+    {
+      "p": 8,
+      "q": 5,
+      "octave": 0,
+      "monzo": {
+        "2": 3,
+        "5": -1
+      }
+    },
+    {
+      "p": 5,
+      "q": 3,
+      "octave": 0,
+      "monzo": {
+        "3": -1,
+        "5": 1
+      }
+    },
+    {
+      "p": 16,
+      "q": 9,
+      "octave": 0,
+      "monzo": {
+        "2": 4,
+        "3": -2
+      }
+    },
+    {
+      "p": 15,
+      "q": 8,
+      "octave": 0,
+      "monzo": {
+        "2": -3,
+        "3": 1,
+        "5": 1
+      }
+    }
+  ],
+  "axisShift": {},
+  "autoplayAll": false,
+  "startInLibrary": true,
+  "existing": null,
+  "stagingBaseCount": null,
+  "createdAt": "2026-01-21T10:49:02Z",
+  "updatedAt": "2026-01-21T10:47:26Z"
+}

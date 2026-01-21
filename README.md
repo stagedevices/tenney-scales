@@ -28,6 +28,27 @@ npm run check
 
 * Tenney reads `scale-builder.json` to import a scale into the Tenney library.
 * `export.scl`, `export.ascl`, and `export.kbm` are convenience exports for other tools.
-* `INDEX.json` is a machine-readable catalog for pack browsing.
+* `INDEX.json` is a machine-readable catalog for pack browsing. Each pack now includes a `scales` array with per-scale file outputs and the source `scalaPath`.
+
+Example `INDEX.json` entry:
+
+```json
+{
+  "slug": "example-12tet",
+  "title": "Example 12-TET",
+  "scales": [
+    {
+      "title": "Example 12-TET",
+      "scalaPath": "packs/example-12tet/sources/12tet.scl",
+      "files": {
+        "tenney": "packs/example-12tet/tenney/scale-builder.json",
+        "scl": "packs/example-12tet/tenney/export.scl",
+        "ascl": "packs/example-12tet/tenney/export.ascl",
+        "kbm": "packs/example-12tet/tenney/export.kbm"
+      }
+    }
+  ]
+}
+```
 
 See `CONTRIBUTING.md` to add your own pack.

@@ -3,6 +3,7 @@ import path from "node:path";
 import { approximateCents } from "./approx.js";
 import { parseKbm, generateMinimalKbm } from "./kbm.js";
 import { listPackSlugs, loadPack, validatePackDates, validateSlugMatchesFolder } from "./pack.js";
+import { buildScaleOutputFiles, resolveScaleDirName } from "./scale-outputs.js";
 import { parseScala } from "./scala.js";
 import {
   foldToOctave,
@@ -19,7 +20,7 @@ import {
   writeTextFile,
   normalizeISO8601NoMillis
 } from "./utils.js";
-import type { RatioRef, ScaleBuilderPayload } from "./types.js";
+import type { PackInputs, PackScaleInput, RatioRef, ScaleBuilderPayload } from "./types.js";
 
 const UUID_NAMESPACE = "6ba7b810-9dad-11d1-80b4-00c04fd430c8";
 
@@ -36,110 +37,119 @@ export async function normalizePacks(): Promise<void> {
 async function normalizePack(slug: string): Promise<void> {
   const pack = await loadPack(slug);
   const packRoot = path.join(packsDir, slug);
-  const inputs = pack.inputs.scales?.length
-    ? pack.inputs.scales
-    : pack.inputs.scala
-      ? [{ scala: pack.inputs.scala, kbm: pack.inputs.kbm }]
-      : null;
-
-  if (!inputs) {
-    throw new Error("Pack inputs must include scala or scales.");
+  const scaleInputs = resolveScaleInputs(pack.inputs);
+  const useScaleSubdir = Boolean(pack.inputs.scales && pack.inputs.scales.length > 0);
+  if (useScaleSubdir) {
+    await removeLegacyOutputs(packRoot);
   }
 
-  const useLegacyFilenames = !pack.inputs.scales?.length && Boolean(pack.inputs.scala);
+  for (const input of scaleInputs) {
+    await normalizeScale(pack, packRoot, input, useScaleSubdir);
+  }
+}
 
-  for (const input of inputs) {
-    const scalaPath = path.join(packRoot, input.scala);
-    const scalaRaw = await fs.readFile(scalaPath, "utf8");
-    const scala = parseScala(scalaRaw);
-    const title = scala.description || pack.title;
-    const comments = scala.comments.filter((comment) => comment.length > 0);
-    const notes = [pack.description, ...comments].filter(Boolean).join("\n");
+function resolveScaleInputs(inputs: PackInputs): PackScaleInput[] {
+  if (inputs.scales && inputs.scales.length > 0) {
+    return inputs.scales;
+  }
+  if (inputs.scala) {
+    return [{ scala: inputs.scala, kbm: inputs.kbm }];
+  }
+  throw new Error("Pack inputs must include scala or scales.");
+}
 
-    const kbmPath = input.kbm ? path.join(packRoot, input.kbm) : null;
-    const kbmRaw = kbmPath ? await fs.readFile(kbmPath, "utf8") : null;
-    const kbm = kbmRaw ? parseKbm(kbmRaw) : null;
+async function normalizeScale(
+  pack: Awaited<ReturnType<typeof loadPack>>,
+  packRoot: string,
+  input: PackScaleInput,
+  useScaleSubdir: boolean
+): Promise<void> {
+  const scalaPath = path.join(packRoot, input.scala);
+  const scalaRaw = await fs.readFile(scalaPath, "utf8");
+  const scala = parseScala(scalaRaw);
+  const title = pack.title || scala.description;
+  const comments = scala.comments.filter((comment) => comment.length > 0);
+  const notes = [pack.description, ...comments].filter(Boolean).join("\n");
 
-    const primeLimit = pack.defaults.primeLimit;
-    const degrees = scala.degrees.map((degree) => {
-      if (degree.type === "ratio") {
-        return reduce(degree.p, degree.q);
-      }
-      return approximateCents(degree.cents, primeLimit).ratio;
-    });
+  const kbmPath = input.kbm ? path.join(packRoot, input.kbm) : null;
+  const kbmRaw = kbmPath ? await fs.readFile(kbmPath, "utf8") : null;
+  const kbm = kbmRaw ? parseKbm(kbmRaw) : null;
 
-    const periodRatio = reduce(2, 1);
-    const filtered = degrees.filter((ratio, index) => {
-      const source = scala.degrees[index];
-      if (source.type === "cents" && Math.abs(source.cents - 1200) < 1e-6) {
-        return false;
-      }
-      if (source.type === "ratio" && source.p === 2 && source.q === 1) {
-        return false;
-      }
-      if (source.type === "ratio" && source.p === 1 && source.q === 1) {
-        return false;
-      }
-      return !compareRatios(ratio, periodRatio) && !compareRatios(ratio, reduce(1, 1));
-    });
-
-    const refs: RatioRef[] = [];
-    const seen = new Set<string>();
-    for (const ratio of filtered) {
-      const folded = foldToOctave(ratio);
-      const monzo = ratioToMonzoWithOctave(folded.p, folded.q, folded.octave);
-      const key = `${folded.p}/${folded.q}@${folded.octave}`;
-      if (seen.has(key)) {
-        continue;
-      }
-      seen.add(key);
-      refs.push({
-        p: folded.p,
-        q: folded.q,
-        octave: folded.octave,
-        monzo
-      });
+  const primeLimit = pack.defaults.primeLimit;
+  const degrees = scala.degrees.map((degree) => {
+    if (degree.type === "ratio") {
+      return reduce(degree.p, degree.q);
     }
+    return approximateCents(degree.cents, primeLimit).ratio;
+  });
 
-    const rootHz = kbm ? kbm.referenceFrequency : pack.defaults.rootHz;
-    const suffix = useLegacyFilenames ? "" : path.parse(input.scala).name;
-    const fileSuffix = suffix ? `.${suffix}` : "";
-    const idSeed = useLegacyFilenames ? `${pack.slug}:${title}` : `${pack.slug}:${input.scala}`;
-
-    const payload: ScaleBuilderPayload = {
-      id: uuidV5(idSeed, UUID_NAMESPACE),
-      source: "library",
-      title,
-      notes,
-      rootHz,
-      primeLimit,
-      refs,
-      axisShift: {},
-      autoplayAll: false,
-      startInLibrary: true,
-      existing: null,
-      stagingBaseCount: null,
-      createdAt: normalizeISO8601NoMillis(pack.createdAt ?? ""),
-      updatedAt: normalizeISO8601NoMillis(pack.updatedAt ?? "")
-    };
-
-    const tenneyDir = path.join(packRoot, "tenney");
-    await writeJsonFile(path.join(tenneyDir, `scale-builder${fileSuffix}.json`), payload);
-
-    const scl = buildScalaExport(scala.description, refs);
-    await writeTextFile(path.join(tenneyDir, `export${fileSuffix}.scl`), scl);
-    const ascl = buildScalaExport(scala.description, refs);
-    await writeTextFile(path.join(tenneyDir, `export${fileSuffix}.ascl`), ascl);
-
-    if (kbmRaw) {
-      await writeTextFile(
-        path.join(tenneyDir, `export${fileSuffix}.kbm`),
-        kbmRaw.endsWith("\n") ? kbmRaw : `${kbmRaw}\n`
-      );
-    } else {
-      const kbmExport = generateMinimalKbm(rootHz, refs.length + 1);
-      await writeTextFile(path.join(tenneyDir, `export${fileSuffix}.kbm`), kbmExport);
+  const periodRatio = reduce(2, 1);
+  const filtered = degrees.filter((ratio, index) => {
+    const source = scala.degrees[index];
+    if (source.type === "cents" && Math.abs(source.cents - 1200) < 1e-6) {
+      return false;
     }
+    if (source.type === "ratio" && source.p === 2 && source.q === 1) {
+      return false;
+    }
+    if (source.type === "ratio" && source.p === 1 && source.q === 1) {
+      return false;
+    }
+    return !compareRatios(ratio, periodRatio) && !compareRatios(ratio, reduce(1, 1));
+  });
+
+  const refs: RatioRef[] = [];
+  const seen = new Set<string>();
+  for (const ratio of filtered) {
+    const folded = foldToOctave(ratio);
+    const monzo = ratioToMonzoWithOctave(folded.p, folded.q, folded.octave);
+    const key = `${folded.p}/${folded.q}@${folded.octave}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    refs.push({
+      p: folded.p,
+      q: folded.q,
+      octave: folded.octave,
+      monzo
+    });
+  }
+
+  const rootHz = kbm ? kbm.referenceFrequency : pack.defaults.rootHz;
+
+  const payload: ScaleBuilderPayload = {
+    id: uuidV5(`${pack.slug}:${title}`, UUID_NAMESPACE),
+    source: "library",
+    title,
+    notes,
+    rootHz,
+    primeLimit,
+    refs,
+    axisShift: {},
+    autoplayAll: false,
+    startInLibrary: true,
+    existing: null,
+    stagingBaseCount: null,
+    createdAt: normalizeISO8601NoMillis(pack.createdAt ?? ""),
+    updatedAt: normalizeISO8601NoMillis(pack.updatedAt ?? "")
+  };
+
+  const scaleDir = useScaleSubdir ? resolveScaleDirName(input.scala) : "";
+  const outputs = buildScaleOutputFiles(path.join(packRoot, "tenney"), scaleDir);
+
+  await writeJsonFile(outputs.tenney, payload);
+
+  const scl = buildScalaExport(scala.description, refs);
+  await writeTextFile(outputs.scl, scl);
+  const ascl = buildScalaExport(scala.description, refs);
+  await writeTextFile(outputs.ascl, ascl);
+
+  if (kbmRaw) {
+    await writeTextFile(outputs.kbm, kbmRaw.endsWith("\n") ? kbmRaw : `${kbmRaw}\n`);
+  } else {
+    const kbmExport = generateMinimalKbm(rootHz, refs.length + 1);
+    await writeTextFile(outputs.kbm, kbmExport);
   }
 }
 
@@ -163,4 +173,21 @@ function buildScalaExport(description: string, refs: RatioRef[]): string {
 
 function isSmallRatio(p: number, q: number): boolean {
   return p <= 64 && q <= 64;
+}
+
+async function removeLegacyOutputs(packRoot: string): Promise<void> {
+  const tenneyDir = path.join(packRoot, "tenney");
+  const legacyFiles = ["scale-builder.json", "export.scl", "export.ascl", "export.kbm"];
+  await Promise.all(
+    legacyFiles.map(async (file) => {
+      const filePath = path.join(tenneyDir, file);
+      try {
+        await fs.rm(filePath, { force: true });
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+          throw error;
+        }
+      }
+    })
+  );
 }
