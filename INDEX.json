@@ -1,7 +1,42 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-01-17T10:09:50Z",
+  "generatedAt": "2026-01-21T10:47:26Z",
   "packs": [
+    {
+      "slug": "european-historical-tunings",
+      "title": "European Historical Tunings (Medieval to Romantic)",
+      "description": "A wide survey of European historical keyboard tunings from the medieval Pythagorean world through Renaissance/Baroque comma-management (tertial + meantone families), canonical well temperaments (key color), and 19th-century extensions, with 12-TET included as a reference endpoint. This pack includes both full chromatic temperaments and a small set of “major-scale extracts” for fast A/B auditioning inside Tenney; filenames encode family + variant so the library stays navigable. All scales are shipped as freshly-authored Scala `.scl` files suitable for CC0 release and predictable CI export into Tenney’s format.",
+      "author": "Tenney Community",
+      "authorUrl": "https://tenneyapp.com",
+      "license": "CC0-1.0",
+      "tags": [
+        "european",
+        "historical",
+        "temperament",
+        "pythagorean",
+        "meantone",
+        "well-temperament",
+        "baroque",
+        "renaissance",
+        "classical",
+        "romantic",
+        "helmholtz",
+        "equal-temperament",
+        "keyboard",
+        "diatonic",
+        "chromatic"
+      ],
+      "defaults": {
+        "rootHz": 440,
+        "primeLimit": 13
+      },
+      "files": {
+        "tenney": "packs/european-historical-tunings/tenney/scale-builder.json",
+        "scl": "packs/european-historical-tunings/tenney/export.scl",
+        "ascl": "packs/european-historical-tunings/tenney/export.ascl",
+        "kbm": "packs/european-historical-tunings/tenney/export.kbm"
+      }
+    },
     {
       "slug": "example-12tet",
       "title": "Example 12-TET",
