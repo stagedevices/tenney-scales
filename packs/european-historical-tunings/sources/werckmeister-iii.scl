@@ -1,0 +1,18 @@
+! Werckmeister III
+! Derived from Instrument-Tuner temperament table (same cents as common Werckmeister III).
+!
+Werckmeister III
+ 12
+!
+ 90.22499567 ! C♯|D♭
+192.1799965 ! D
+294.1349974 ! D♯|E♭
+390.2249957 ! E
+498.0449991 ! F
+588.2699948 ! F♯|G♭
+696.0899983 ! G
+792.1799965 ! G♯|A♭
+888.2699948 ! A
+996.0899983 ! A♯|B♭
+1092.179997 ! B
+2/1 ! C

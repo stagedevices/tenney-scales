@@ -1,0 +1,20 @@
+! Meantone (1/6 tertial comma)
+! Regular temperament: all fifths tempered by a fraction of the syntonic (tertial) comma.
+! Tertial comma = syntonic comma ≈ 21.506290 cents.
+! Generated from regular fifth size = 698.371285 cents.
+!
+Meantone (1/6 tertial comma)
+ 12
+!
+ 86.2883902 ! C♯
+196.0823972 ! D
+305.8764042 ! E♭
+392.1647944 ! E
+501.9588014 ! F
+588.2471916 ! F♯
+698.0411986 ! G
+784.3295888 ! G♯
+894.1235958 ! A
+1003.917603 ! B♭
+1090.205993 ! B
+2/1 ! C

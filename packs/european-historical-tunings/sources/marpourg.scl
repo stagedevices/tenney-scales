@@ -1,0 +1,18 @@
+! Marpurg III (file named marpourg.scl)
+! Derived from Instrument-Tuner temperament table row: Marpurg III.
+!
+Marpurg III (file named marpourg.scl)
+ 12
+!
+ 84.260771 ! C♯|D♭
+193.156857 ! D
+293.841171 ! D♯|E♭
+386.313714 ! E
+503.421572 ! F
+579.470571 ! F♯|G♭
+696.578428 ! G
+789.050971 ! G♯|A♭
+889.735285 ! A
+998.631371 ! A♯|B♭
+1082.892142 ! B
+2/1 ! C

@@ -1,26 +1,26 @@
 ### Pack title
 
-test1
+European Historical Tunings (Medieval to Romantic)
 
 ### Preferred slug (optional)
 
-_No response_
+european-historical-tunings
 
 ### Author display name
 
-test1
+Tenney Community
 
 ### Author URL (optional)
 
-_No response_
+https://tenneyapp.com
 
 ### Short description (1–3 sentences)
 
-this is a test (1).
+A wide survey of European historical keyboard tunings from the medieval Pythagorean world through Renaissance/Baroque comma-management (tertial + meantone families), canonical well temperaments (key color), and 19th-century extensions, with 12-TET included as a reference endpoint. This pack includes both full chromatic temperaments and a small set of “major-scale extracts” for fast A/B auditioning inside Tenney; filenames encode family + variant so the library stays navigable. All scales are shipped as freshly-authored Scala `.scl` files suitable for CC0 release and predictable CI export into Tenney’s format.
 
 ### Tags (comma-separated)
 
-test
+european, historical, temperament, pythagorean, meantone, well-temperament, baroque, renaissance, classical, romantic, helmholtz, equal-temperament, keyboard, diatonic, chromatic
 
 ### Prime limit default
 
@@ -36,7 +36,45 @@ Yes, this pack will include multiple scales (one .scl/.ascl/.scala per scale; op
 
 ### Scale files list (filenames you intend to upload)
 
-test.scl
+pythagorean-diatonic-3limit.scl
+pythagorean-chromatic-12.scl
+
+henricus-grammateus-12.scl
+tertial-center-c.scl
+tertial-dflat-fsharp-center-c.scl
+tertial-quintal-erlanger-traktat.scl
+
+meantone-1of4-quintal-comma.scl
+meantone-1of5-quintal-comma.scl
+meantone-1of3-quintal-comma.scl
+meantone-2of7-quintal-comma.scl
+meantone-1of6-tertial-comma.scl
+
+werckmeister-iii.scl
+vallotti.scl
+kirnberger-iii.scl
+kellner.scl
+neidhardt-kleine-stadt.scl
+neidhardt-grosse-stadt.scl
+dalembert-rousseau.scl
+rameau.scl
+marpourg.scl
+lehman-wtc.scl
+
+helmholtz-24.scl
+twelve-tet-12edo.scl
+
+sabat-i-2016.scl
+sabat-ii.scl
+
+diatonic-major--pythagorean.scl
+diatonic-major--meantone-1of4.scl
+diatonic-major--vallotti.scl
+diatonic-major--werckmeister-iii.scl
+diatonic-major--twelve-tet.scl
+
+young.scl
+Neidhardt_Third-CircleNo4.scl
 
 ### License confirmation
 
