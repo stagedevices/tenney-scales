@@ -1,0 +1,14 @@
+! Pythagorean diatonic (3-limit) major
+! Created by Tenney pack builder (Stage Devices).
+! 3-limit diatonic major scale ratios relative to tonic.
+!
+Pythagorean diatonic (3-limit) major
+ 7
+!
+ 9/8
+ 81/64
+ 4/3
+ 3/2
+ 27/16
+ 243/128
+ 2/1

@@ -1,0 +1,20 @@
+! Meantone (1/5 quintal comma)
+! Regular temperament: all fifths tempered by a fraction of the Pythagorean (quintal) comma.
+! Quintal comma = Pythagorean comma ≈ 23.460010 cents.
+! Generated from regular fifth size = 697.262998 cents.
+!
+Meantone (1/5 quintal comma)
+ 12
+!
+ 83.57620062 ! C♯
+195.3074859 ! D
+307.0387712 ! E♭
+390.6149718 ! E
+502.3462571 ! F
+585.9224577 ! F♯
+697.6537429 ! G
+781.2299436 ! G♯
+892.9612288 ! A
+1004.692514 ! B♭
+15/8 ! B
+2/1 ! C

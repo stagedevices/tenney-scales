@@ -1,0 +1,19 @@
+! Vallotti - PROXY (Young II)
+! PROXY: Instrument-Tuner table includes Young II (Vallotti/Young family).
+! Replace with a dedicated Vallotti row if you need strict Vallotti.
+!
+Vallotti - PROXY (Young II)
+ 12
+!
+ 94.134997 ! C♯|D♭
+196.089998 ! D
+298.044999 ! D♯|E♭
+392.179997 ! E
+501.955001 ! F
+592.179997 ! F♯|G♭
+698.044999 ! G
+796.089998 ! G♯|A♭
+894.134997 ! A
+1000. ! A♯|B♭
+1090.224996 ! B
+2/1 ! C

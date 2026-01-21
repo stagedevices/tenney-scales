@@ -1,0 +1,18 @@
+! Kirnberger III (1779)
+! Derived from Instrument-Tuner temperament table.
+!
+Kirnberger III (1779)
+ 12
+!
+ 90.224996 ! C♯|D♭
+193.156857 ! D
+294.134997 ! D♯|E♭
+386.313714 ! E
+498.044999 ! F
+590.223716 ! F♯|G♭
+696.578428 ! G
+792.179997 ! G♯|A♭
+889.735285 ! A
+996.089998 ! A♯|B♭
+1088.268715 ! B
+2/1 ! C
