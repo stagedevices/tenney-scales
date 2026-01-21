@@ -1,0 +1,131 @@
+{
+  "slug": "european-historical-tunings",
+  "title": "European Historical Tunings (Medieval to Romantic)",
+  "description": "A wide survey of European historical keyboard tunings from the medieval Pythagorean world through Renaissance/Baroque comma-management (tertial + meantone families), canonical well temperaments (key color), and 19th-century extensions, with 12-TET included as a reference endpoint. This pack includes both full chromatic temperaments and a small set of “major-scale extracts” for fast A/B auditioning inside Tenney; filenames encode family + variant so the library stays navigable. All scales are shipped as freshly-authored Scala `.scl` files suitable for CC0 release and predictable CI export into Tenney’s format.",
+  "author": "Tenney Community",
+  "license": "CC0-1.0",
+  "tags": [
+    "european",
+    "historical",
+    "temperament",
+    "pythagorean",
+    "meantone",
+    "well-temperament",
+    "baroque",
+    "renaissance",
+    "classical",
+    "romantic",
+    "helmholtz",
+    "equal-temperament",
+    "keyboard",
+    "diatonic",
+    "chromatic"
+  ],
+  "defaults": {
+    "rootHz": 440,
+    "primeLimit": 13
+  },
+  "inputs": {
+    "scales": [
+      {
+        "scala": "sources/pythagorean-diatonic-3limit.scl"
+      },
+      {
+        "scala": "sources/pythagorean-chromatic-12.scl"
+      },
+      {
+        "scala": "sources/henricus-grammateus-12.scl"
+      },
+      {
+        "scala": "sources/tertial-center-c.scl"
+      },
+      {
+        "scala": "sources/tertial-dflat-fsharp-center-c.scl"
+      },
+      {
+        "scala": "sources/tertial-quintal-erlanger-traktat.scl"
+      },
+      {
+        "scala": "sources/meantone-1of4-quintal-comma.scl"
+      },
+      {
+        "scala": "sources/meantone-1of5-quintal-comma.scl"
+      },
+      {
+        "scala": "sources/meantone-1of3-quintal-comma.scl"
+      },
+      {
+        "scala": "sources/meantone-2of7-quintal-comma.scl"
+      },
+      {
+        "scala": "sources/meantone-1of6-tertial-comma.scl"
+      },
+      {
+        "scala": "sources/werckmeister-iii.scl"
+      },
+      {
+        "scala": "sources/vallotti.scl"
+      },
+      {
+        "scala": "sources/kirnberger-iii.scl"
+      },
+      {
+        "scala": "sources/kellner.scl"
+      },
+      {
+        "scala": "sources/neidhardt-kleine-stadt.scl"
+      },
+      {
+        "scala": "sources/neidhardt-grosse-stadt.scl"
+      },
+      {
+        "scala": "sources/dalembert-rousseau.scl"
+      },
+      {
+        "scala": "sources/rameau.scl"
+      },
+      {
+        "scala": "sources/marpourg.scl"
+      },
+      {
+        "scala": "sources/lehman-wtc.scl"
+      },
+      {
+        "scala": "sources/helmholtz-24.scl"
+      },
+      {
+        "scala": "sources/twelve-tet-12edo.scl"
+      },
+      {
+        "scala": "sources/sabat-i-2016.scl"
+      },
+      {
+        "scala": "sources/sabat-ii.scl"
+      },
+      {
+        "scala": "sources/diatonic-major--pythagorean.scl"
+      },
+      {
+        "scala": "sources/diatonic-major--meantone-1of4.scl"
+      },
+      {
+        "scala": "sources/diatonic-major--vallotti.scl"
+      },
+      {
+        "scala": "sources/diatonic-major--werckmeister-iii.scl"
+      },
+      {
+        "scala": "sources/diatonic-major--twelve-tet.scl"
+      },
+      {
+        "scala": "sources/young.scl"
+      },
+      {
+        "scala": "sources/Neidhardt_Third-CircleNo4.scl"
+      }
+    ]
+  },
+  "createdAt": "1970-01-01T00:00:00Z",
+  "updatedAt": "1970-01-01T00:00:00Z",
+  "authorUrl": "https://tenneyapp.com"
+}
